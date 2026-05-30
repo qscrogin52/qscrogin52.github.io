@@ -3,15 +3,2170 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>School Details | Building Blocks Baseball</title>
-  <meta name="description" content="View school-specific Building Blocks Baseball schedule and registration details." />
-  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <title>Building Blocks Baseball Schools Directory</title>
+  <style>
+    :root {
+      --brand: #d61f2b;
+      --brand-dark: #ab1620;
+      --white: #fff;
+      --text: #1f2937;
+      --shadow: 0 18px 38px rgba(0,0,0,.14);
+      --card-shadow: 0 8px 18px rgba(0,0,0,.12);
+      --max: 1240px;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #b50012;
+      color: var(--text);
+    }
+    
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 15% 18%, rgba(255,255,255,.07), transparent 18%),
+                  radial-gradient(circle at 85% 10%, rgba(255,255,255,.05), transparent 20%),
+                  linear-gradient(180deg, #b50012 0%, #c90017 40%, #d8081f 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: .15;
+      background-image:
+        radial-gradient(rgba(255,255,255,.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 24px 24px, 96px 96px, 96px 96px;
+      pointer-events: none;
+    }
+    
+    button, input, select {
+      font: inherit;
+    }
+    
+    .bg-ball {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: .11;
+      border: 2px solid rgba(255,255,255,.45);
+      background: radial-gradient(circle at center, transparent 0 68%, rgba(255,255,255,.08) 69% 100%);
+      filter: blur(.2px);
+    }
+    
+    .bg-ball::before, .bg-ball::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    .bg-ball::before {
+      background: radial-gradient(circle at 20% 50%, transparent 0 59%, rgba(255,255,255,.9) 60% 61.5%, transparent 62%),
+                  radial-gradient(circle at 80% 50%, transparent 0 59%, rgba(255,255,255,.9) 60% 61.5%, transparent 62%);
+      opacity: .35;
+    }
+    
+    .bg-ball::after {
+      background: linear-gradient(60deg, transparent 46%, rgba(255,255,255,.55) 47% 48%, transparent 49%),
+                  linear-gradient(-60deg, transparent 46%, rgba(255,255,255,.55) 47% 48%, transparent 49%);
+      mix-blend-mode: screen;
+      opacity: .18;
+    }
+    
+    .ball-1 { width: 260px; height: 260px; top: 90px; left: -95px; transform: rotate(18deg); }
+    .ball-2 { width: 320px; height: 320px; top: 40px; right: -120px; transform: rotate(-16deg); }
+    .ball-3 { width: 210px; height: 210px; bottom: 120px; left: -70px; transform: rotate(-10deg); opacity: .08; }
+    .ball-4 { width: 240px; height: 240px; bottom: 80px; right: -85px; transform: rotate(12deg); opacity: .08; }
+    
+    .page {
+      width: 100%;
+      padding: 22px 18px 0;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+    }
+    
+    .hero {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max);
+      margin: 0 auto 18px;
+      text-align: center;
+      color: #fff;
+      padding: 8px 0 0;
+    }
+    
+    .brandRow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 0 auto 14px;
+      width: fit-content;
+      max-width: 100%;
+      flex-wrap: wrap;
+    }
+    
+    .brandLogoWrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.26);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      flex: 0 0 72px;
+    }
+    
+    .brandLogo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    
+    .brandLogoPlaceholder {
+      color: #fff;
+      font-weight: 1000;
+      font-size: 14px;
+      letter-spacing: .08em;
+    }
+    
+    .brandText {
+      text-align: left;
+      line-height: .95;
+    }
+    
+    .brandTextTop {
+      display: block;
+      font-size: clamp(20px, 2.4vw, 30px);
+      font-weight: 1000;
+      letter-spacing: -.03em;
+      text-transform: uppercase;
+    }
+    
+    .brandTextBottom {
+      display: block;
+      margin-top: 4px;
+      font-size: clamp(15px, 1.6vw, 20px);
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      opacity: .95;
+    }
+    
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(42px, 7vw, 92px);
+      line-height: .9;
+      letter-spacing: -.05em;
+      font-weight: 1000;
+      text-transform: uppercase;
+    }
+    
+    .hero p {
+      margin: 0;
+      font-size: clamp(16px, 2vw, 22px);
+      line-height: 1.35;
+      font-weight: 800;
+      color: rgba(255,255,255,.92);
+    }
+    
+    .controlsWrap {
+      position: relative;
+      top: auto;
+      z-index: 30;
+      max-width: var(--max);
+      margin: 22px auto 18px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(255,255,255,.5);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 16px 18px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .searchRow {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      min-width: 0;
+    }
+    
+    .searchShell {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 2px solid rgba(17,24,39,.08);
+      border-radius: 16px;
+      min-height: 64px;
+      padding: 0 12px 0 18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+    }
+    
+    .searchShell:focus-within {
+      border-color: rgba(214,31,43,.32);
+      box-shadow: 0 0 0 4px rgba(214,31,43,.08);
+    }
+    
+    .searchIcon {
+      width: 24px;
+      height: 24px;
+      color: #6b7280;
+      flex: 0 0 24px;
+    }
+    
+    .searchInput {
+      flex: 1 1 auto;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      height: 60px;
+      font-size: 16px;
+      font-weight: 750;
+      color: #1f2937;
+    }
+    
+    .searchInput::placeholder {
+      color: #9ca3af;
+      font-weight: 700;
+    }
+    
+    .clearBtn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #6b7280;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      flex: 0 0 34px;
+    }
+    
+    .clearBtn.show {
+      display: inline-flex;
+    }
+    
+    .searchBtn {
+      border: none;
+      outline: none;
+      background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+      color: #fff;
+      font-weight: 950;
+      font-size: 16px;
+      padding: 14px 22px;
+      border-radius: 14px;
+      min-width: 110px;
+      box-shadow: 0 10px 18px rgba(214,31,43,.18);
+      cursor: pointer;
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+    
+    .filterLabel {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+    
+    .pillsOuter {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .pills {
+      display: flex;
+      gap: 10px;
+      min-width: max-content;
+      padding-bottom: 2px;
+      flex-wrap: nowrap;
+    }
+    
+    .pill {
+      border: none;
+      outline: none;
+      padding: 10px 16px;
+      border-radius: 14px;
+      background: #fff;
+      border: 2px solid rgba(214,31,43,.22);
+      color: var(--brand);
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all .12s ease;
+    }
+    
+    .pill:hover {
+      transform: translateY(-1px);
+      border-color: rgba(214,31,43,.36);
+    }
+    
+    .pill.active {
+      background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(214,31,43,.22);
+    }
+    
+    .sortRow {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      max-width: var(--max);
+      margin: 0 auto 12px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .sortWrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+    }
+    
+    .sortSelect {
+      appearance: none;
+      border: none;
+      outline: none;
+      background: #fff;
+      color: #1f2937;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 8px 16px rgba(0,0,0,.12);
+      cursor: pointer;
+    }
+    
+    .grid {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    
+    .card {
+      position: relative;
+      display: block;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.42);
+      border-radius: 18px;
+      box-shadow: var(--card-shadow);
+      padding: 16px 16px 14px;
+      overflow: hidden;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+      color: #1f2937;
+    }
+    
+    .cardInner {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px) scale(1.012);
+      background: rgba(255,255,255,.98);
+      border-color: rgba(255,255,255,.75);
+      box-shadow: 0 18px 34px rgba(0,0,0,.18);
+    }
+    
+    .cardTopRow {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+    
+    .name {
+      margin: 4px 0 10px;
+      color: var(--brand);
+      font-size: 21px;
+      line-height: 1.03;
+      font-weight: 1000;
+      letter-spacing: -.03em;
+      overflow-wrap: anywhere;
+      flex: 1;
+    }
+    
+    .regBadge {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+      margin-top: 6px;
+      opacity: 0;
+      transition: opacity .15s ease;
+    }
+
+    .regBadge.open {
+      display: none;
+    }
+
+    .regBadge.closed {
+      background: rgba(0,0,0,.05);
+      color: #9ca3af;
+      border: none;
+    }
+
+    .card:hover .regBadge.closed {
+      opacity: 1;
+    }
+
+    .priceText {
+      color: #6b7280;
+      font-weight: 900;
+      text-decoration: underline;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 3px;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .metaBlock {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 13px;
+      line-height: 1.34;
+      color: #374151;
+      font-weight: 750;
+    }
+    
+    .metaLine { opacity: .86; }
+    .metaLine.primary { opacity: 1; font-size: 14px; color: #111827; font-weight: 900; }
+    .metaLine.secondary { font-size: 12.75px; }
+    .metaLine.tertiary { font-size: 12.5px; opacity: .72; }
+    .metaLine strong { font-weight: 950; color: #111827; }
+    
+    .accent { color: #6b7280; font-weight: 900; }
+    .coachLine { font-size: 12px; color: #9ca3af; font-weight: 700; margin-top: 1px; }
+    
+    .seasonPills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 8px 0 4px;
+    }
+    
+    .seasonTag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      background: rgba(214,31,43,.08);
+      color: var(--brand);
+      border: 1.5px solid rgba(214,31,43,.2);
+    }
+    
+    .footerRow {
+      margin-top: auto;
+      padding-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .cityTag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--brand);
+      border: 1.5px solid rgba(214,31,43,.25);
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 104px;
+      text-decoration: none;
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 950;
+      color: #fff;
+      background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+      box-shadow: 0 8px 14px rgba(214,31,43,.18);
+      border: none;
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+    
+    .btn:disabled { opacity: .7; cursor: wait; }
+    .btn .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      display: none;
+    }
+    .btn.loading .spinner { display: block; }
+    .btn.loading .btnText { display: none; }
+    
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .highlight { background: rgba(214,31,43,.12); color: #981b1b; border-radius: 4px; padding: 0 2px; }
+    
+    .empty {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max);
+      margin: 0 auto;
+      display: none;
+      text-align: center;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 850;
+      padding: 26px 18px;
+      border: 1px dashed rgba(255,255,255,.35);
+      border-radius: 18px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(4px);
+    }
+    
+    .emptyTitle { font-size: 18px; font-weight: 1000; margin-bottom: 8px; }
+    .emptySub { opacity: .92; margin-bottom: 14px; }
+    .emptyActions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .emptyBtn {
+      border: none;
+      outline: none;
+      background: #fff;
+      color: var(--brand);
+      font-size: 14px;
+      font-weight: 900;
+      padding: 11px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    
+    .resultsMeta {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max);
+      margin: 14px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      text-align: center;
+    }
+    
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: rgba(255,255,255,.45); flex: 0 0 8px; }
+    .dot.ok { background: #86efac; }
+    .dot.bad { background: #fca5a5; }
+    
+    .skeleton { animation: pulse 1.2s ease-in-out infinite; }
+    .sk-line { background: linear-gradient(90deg, rgba(240,240,240,.9), rgba(228,228,228,.95), rgba(240,240,240,.9)); background-size: 200% 100%; border-radius: 8px; animation: shine 1.4s linear infinite; }
+    .sk-title { height: 24px; width: 74%; margin: 6px 0 14px; }
+    .sk-sm { height: 12px; width: 58%; margin-bottom: 8px; }
+    .sk-md { height: 12px; width: 82%; margin-bottom: 8px; }
+    .sk-tag { height: 28px; width: 84px; border-radius: 999px; }
+    .sk-btn { height: 40px; width: 110px; border-radius: 12px; }
+    
+    @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .82 } }
+    @keyframes shine { 0% { background-position: 200% 0 } 100% { background-position: -200% 0 } }
+    
+    .directoryView { display: block; }
+    .detailView { display: none; }
+    .showDetail .directoryView { display: none; }
+    .showDetail .detailView { display: block; }
+    .page.showDetail { padding: 0 !important; background: #f8fafc; min-height: 100vh; }
+    .showDetail .hero { display: none; }
+    .showDetail .bg-ball { display: none; }
+    
+    .detailShell { width: 100%; max-width: none; margin: 0; background: linear-gradient(180deg, rgba(181,0,18,.08) 0, #f8fafc 245px, #f8fafc 100%); color: #111827; min-height: 100vh; padding-bottom: 54px; }
+    .detailHero { height: 250px; background: linear-gradient(rgba(0,0,0,.48), rgba(0,0,0,.58)), url("https://i.postimg.cc/bJVBPpCK/mark-duffel-i-Zt-PLrob-MFI-unsplash-(1).jpg") center 58%/cover no-repeat; color: #fff; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
+    .detailBack { position: absolute; left: 22px; top: 18px; border: none; border-radius: 999px; background: rgba(255,255,255,.92); color: #111827; padding: 10px 14px; font-size: 13px; font-weight: 950; box-shadow: 0 10px 20px rgba(0,0,0,.18); cursor: pointer; }
+    .detailSchoolTitle { font-size: clamp(30px, 4.8vw, 56px); font-weight: 850; line-height: 1.05; letter-spacing: -.035em; text-shadow: 0 4px 18px rgba(0,0,0,.35); margin: 0; padding: 0 18px; }
+    
+    .mobileBackBar { display: none; width: 100%; background: #111827; color: #fff; border: none; padding: 14px; font-size: 15px; font-weight: 950; cursor: pointer; text-align: center; position: sticky; top: 0; z-index: 50; }
+    .detailMain { max-width: 1120px; margin: -42px auto 0; padding: 32px 32px 58px; background: #fff; border-radius: 24px; box-shadow: 0 18px 42px rgba(15,23,42,.09); border: 1px solid rgba(15,23,42,.06); position: relative; z-index: 2; }
+    .quickStats { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; background: #f8f9fa; border: 1px solid #e5e7eb; border-radius: 16px; padding: 18px 24px; margin: 0 0 24px; }
+    .qStat { text-align: center; }
+    .qStat-label { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; color: #6b7280; margin-bottom: 3px; }
+    .qStat-value { font-size: 17px; font-weight: 900; color: #111827; }
+    .qStat-value.highlight-next { color: var(--brand); }
+    .qDivider { width: 1px; height: 36px; background: #e5e7eb; flex-shrink: 0; }
+    
+    .regSection { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 0 0 22px; }
+    .bigRegister { display: inline-flex; align-items: center; justify-content: center; min-width: min(520px, 100%); border: none; text-decoration: none; border-radius: 12px; background: #e03531; color: #fff; font-size: clamp(18px, 2.2vw, 25px); font-weight: 850; text-transform: uppercase; letter-spacing: -.015em; padding: 16px 24px; box-shadow: 0 8px 14px rgba(224,53,49,.18); cursor: pointer; }
+    .bigRegister.closed { background: #9ca3af; box-shadow: none; cursor: not-allowed; }
+    .regOpenBanner { background: rgba(22,163,74,.10); border: 1.5px solid rgba(22,163,74,.28); border-radius: 12px; padding: 12px 20px; font-size: 14px; font-weight: 850; color: #166534; text-align: center; max-width: 520px; }
+    .regClosedBanner { background: #fef2f2; border: 1.5px solid #fca5a5; border-radius: 12px; padding: 12px 20px; font-size: 15px; font-weight: 850; color: #991b1b; text-align: center; max-width: 520px; }
+    
+
+    .programSnapshot {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      margin: 0 0 24px;
+      box-shadow: 0 5px 18px rgba(0,0,0,.06);
+      overflow: hidden;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+
+    .programSnapshot:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.09);
+      border-color: rgba(214,31,43,.18);
+    }
+
+    .programSnapshot summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 20px;
+      cursor: pointer;
+      user-select: none;
+      background: linear-gradient(180deg,#fff,#fafafa);
+    }
+
+    .programSnapshot summary::-webkit-details-marker { display: none; }
+
+    .snapshotSummaryText {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .snapshotSummaryText strong {
+      font-size: 20px;
+      font-weight: 950;
+      color: #111827;
+      letter-spacing: -.025em;
+    }
+
+    .snapshotSummaryText small {
+      color: #6b7280;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .snapshotArrow {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: rgba(214,31,43,.08);
+      color: var(--brand);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      font-weight: 950;
+      flex: 0 0 34px;
+      transition: transform .18s ease, background .18s ease;
+    }
+
+    .programSnapshot[open] .snapshotArrow { transform: rotate(180deg); }
+    .programSnapshot summary:hover .snapshotArrow { background: rgba(214,31,43,.14); }
+
+    .snapshotContent {
+      padding: 0 20px 20px;
+      animation: snapshotDrop .18s ease both;
+    }
+
+    @keyframes snapshotDrop {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .snapshotGrid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding-top: 2px;
+    }
+
+    .snapshotItem {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      background: #f8fafc;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      transition: transform .14s ease, background .14s ease, border-color .14s ease, box-shadow .14s ease;
+    }
+
+    .snapshotItem:hover {
+      transform: translateY(-2px);
+      background: #fff;
+      border-color: rgba(214,31,43,.16);
+      box-shadow: 0 8px 16px rgba(0,0,0,.055);
+    }
+
+    .snapshotItem span {
+      font-size: 24px;
+      line-height: 1;
+      flex: 0 0 auto;
+      transition: transform .14s ease;
+    }
+
+    .snapshotItem:hover span { transform: scale(1.08) rotate(-3deg); }
+
+    .snapshotItem strong {
+      display: block;
+      color: var(--brand);
+      font-size: 14px;
+      font-weight: 900;
+      margin-bottom: 3px;
+    }
+
+    .snapshotItem small {
+      display: block;
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+
+    .quickStats,
+    .schedule-card,
+    .calLink,
+    .blackButton,
+    .bigRegister,
+    .shareButton,
+    .print-btn,
+    .week-row {
+      transition: transform .16s ease, box-shadow .16s ease, background .16s ease, border-color .16s ease, opacity .16s ease;
+    }
+
+    .quickStats:hover,
+    .schedule-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+    }
+
+    .bigRegister:not(.closed):hover,
+    .blackButton:hover,
+    .calLink:hover {
+      transform: translateY(-2px);
+    }
+
+    .bigRegister:not(.closed):active,
+    .blackButton:active,
+    .calLink:active,
+    .print-btn:active {
+      transform: translateY(0) scale(.99);
+    }
+
+    .blackButton:hover .arrow { transform: translateX(4px); }
+    .blackButton .arrow { transition: transform .16s ease; }
+    .shareButton:hover { transform: translateX(2px); }
+    .week-row:not(.skipped):not(.makeup):not(.freetrial):not(.next-practice):hover { background: rgba(214,31,43,.035); }
+
+    .detailGrid { display: grid; grid-template-columns: minmax(300px, .92fr) minmax(390px, 1fr); gap: 52px; align-items: start; }
+    .detailButtons { display: flex; flex-direction: column; gap: 14px; }
+    .blackButton { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-decoration: none; background: #000; color: #fff; border-radius: 13px; padding: 11px 14px 11px 20px; min-height: 54px; font-size: clamp(17px, 1.75vw, 23px); font-weight: 850; text-transform: uppercase; letter-spacing: -.025em; }
+    .shareButton { display: inline-flex; align-items: center; justify-content: flex-start; gap: 7px; width: fit-content; border: none; background: transparent; color: #d61f2b; font-family: inherit; font-size: 13px; font-weight: 850; letter-spacing: 0; text-transform: none; padding: 4px 2px; margin-top: 0; cursor: pointer; align-self: flex-start; }
+    .shareButton:hover { text-decoration: underline; }
+    .shareButton:disabled { opacity: .75; cursor: default; text-decoration: none; }
+    .shareButton .icon { font-size: 14px; line-height: 1; }
+    
+    .blackButton span:first-child { display: flex; align-items: center; gap: 10px; }
+    .blackButton .icon { color: #ff3b3b; font-size: 24px; line-height: 1; }
+    .blackButton .arrow { font-size: 38px; line-height: 1; font-weight: 750; }
+    
+    .changeNote { margin: 20px 0 0; font-size: 15px; line-height: 1.9; font-weight: 500; color: #000; max-width: 520px; }
+    .detailSide { min-width: 0; }
+    .calBlock { margin-bottom: 14px; }
+    .calRow { display: flex; gap: 10px; justify-content: center; margin-bottom: 6px; flex-wrap: wrap; }
+    .calLink { display: inline-flex; align-items: center; justify-content: center; gap: 7px; width: 176px; min-height: 38px; padding: 9px 14px; border-radius: 10px; background: #1a1a2e; color: #fff; font-size: 12px; font-weight: 850; text-decoration: none; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; text-align: center; }
+    .calLink:hover { background: #2d2d4e; }
+    .calNote { font-size: 10px; color: #9ca3af; font-weight: 700; text-align: center; margin: 0; line-height: 1.6; }
+    
+    .seasonsStack { display: flex; flex-direction: column; gap: 18px; }
+    .schedule-card { background: #fff; border: 1px solid rgba(15,23,42,.12); border-radius: 16px; overflow: hidden; box-shadow: 0 5px 18px rgba(0,0,0,.08); }
+    .schedule-header { background: #d61f2b; padding: 14px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .schedule-header-left { display: flex; align-items: flex-start; gap: 10px; flex: 1; }
+    .schedule-header svg { flex-shrink: 0; margin-top: 2px; }
+    .schedule-header-text { color: #fff; }
+    .schedule-title { font-size: 15px; font-weight: 850; margin: 0; letter-spacing: .2px; }
+    .schedule-sub { font-size: 12px; margin: 2px 0 0; opacity: .88; font-weight: 500; }
+    .schedule-coach { font-size: 12px; margin: 5px 0 0; font-weight: 700; }
+    .schedule-actions { display: flex; align-items: flex-start; justify-content: flex-end; flex-shrink: 0; }
+    .print-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.24); cursor: pointer; color: #fff; font-size: 12px; font-weight: 850; text-transform: none; letter-spacing: 0; padding: 7px 11px; border-radius: 999px; line-height: 1; flex-shrink: 0; opacity: .94; transition: opacity .12s, background .12s, transform .12s; white-space: nowrap; }
+    .print-btn:hover { opacity: 1; background: rgba(255,255,255,.28); transform: translateY(-1px); }
+    .print-btn:active { transform: translateY(0); }
+    .print-icon { font-size: 13px; line-height: 1; }
+    .schedule-live-note { padding: 9px 12px 11px; text-align: center; color: #6b7280; font-size: 11px; font-weight: 800; line-height: 1.35; border-top: 1px solid rgba(15,23,42,.08); background: #fff; }
+    
+    .no-practices { padding: 28px 18px; text-align: center; color: #5b667a; font-size: 14px; font-weight: 750; }
+    .no-practices strong { display: block; font-size: 16px; font-weight: 900; color: #0b1220; margin-bottom: 6px; }
+    .schedule-body { padding: 0; }
+    
+    .week-row { display: flex; align-items: center; padding: 10px 18px; border-bottom: 1px solid rgba(15,23,42,.12); gap: 12px; }
+    .week-row:last-child { border-bottom: none; }
+    .week-row.skipped { background: rgba(239,68,68,.055); }
+    .week-row.makeup { background: rgba(29,78,216,.055); }
+    .week-row.freetrial { background: rgba(234,179,8,.06); }
+    .week-row.next-practice { background: rgba(214,31,43,.06); border-left: 3px solid var(--brand); }
+    
+    .week-num { font-size: 11px; font-weight: 750; color: #5b667a; min-width: 58px; flex-shrink: 0; }
+    .week-date-wrap { flex: 1; }
+    .week-date { font-size: 14px; font-weight: 650; color: #0b1220; }
+    .week-row.skipped .week-date { color: #9ca3af; text-decoration: line-through; }
+    .week-sub { font-size: 11px; color: #5b667a; font-weight: 650; margin-top: 2px; }
+    
+    .week-badge { font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 999px; flex-shrink: 0; }
+    .badge-ok { background: rgba(22,163,74,.1); color: #15803d; }
+    .badge-skip { background: rgba(239,68,68,.1); color: #b91c1c; }
+    .badge-makeup { background: rgba(29,78,216,.1); color: #1d4ed8; }
+    .badge-trial { background: rgba(234,179,8,.18); color: #92400e; }
+    .badge-next { background: rgba(214,31,43,.12); color: var(--brand); }
+    
+    .detailStatus { margin-top: 8px; font-size: 11px; font-weight: 700; color: #5b667a; display: flex; gap: 8px; align-items: center; padding: 0 4px; }
+    .detailStatus .miniDot { flex-shrink: 0; width: 7px; height: 7px; border-radius: 999px; background: rgba(34,197,94,.85); }
+    
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    @media(max-width: 1024px) {
+      .mobileBackBar { display: block; }
+      .detailBack { display: none; }
+      .page { padding: 14px 12px 0; }
+      .hero h1 { font-size: clamp(36px, 13vw, 64px); }
+      .controlsWrap { padding: 16px 14px 14px; border-radius: 18px; }
+      .searchRow { flex-direction: column; }
+      .searchShell { min-height: auto; padding: 12px 12px 12px 14px; gap: 10px; }
+      .searchInput { height: 42px; font-size: 15px; }
+      .searchBtn { width: 100%; padding: 13px 16px; font-size: 15px; margin-top: 2px; }
+      .grid { grid-template-columns: 1fr; }
+      .card { padding: 14px; }
+      .detailHero { height: 190px; }
+      .detailGrid { gap: 26px; }
+      .ball-3, .ball-4 { display: none; }
+      .quickStats { padding: 14px 16px; gap: 12px; }
+      .qStat-value { font-size: 15px; }
+      .calRow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .calLink { width: 100%; min-width: 0; font-size: 11px; padding-left: 10px; padding-right: 10px; }
+      .schedule-header { align-items: flex-start; }
+      .detailMain { margin: 0; border-radius: 0; padding: 22px 14px 44px; box-shadow: none; }
+    }
+    
+    @media(max-width: 600px) {
+      .snapshotGrid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media(max-width: 1080px) {
+      .detailGrid { grid-template-columns: 1fr; gap: 30px; }
+      .quickStats { gap: 16px; }
+      .qDivider { display: none; }
+    }
+    
+    @media print {
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      @page {
+        size: letter portrait;
+        margin: 0.45in;
+      }
+
+      html, body {
+        background: #fff !important;
+        color: #111827 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .bg-ball,
+      .hero,
+      .directoryView,
+      .resultsMeta,
+      .detailHero,
+      .mobileBackBar,
+      .detailBack,
+      .regSection,
+      .quickStats,
+      .programSnapshot,
+      .detailButtons,
+      .changeNote,
+      .calBlock,
+      .schedule-actions,
+      .schedule-live-note {
+        display: none !important;
+      }
+
+      .page,
+      .page.showDetail,
+      .detailView,
+      .detailShell,
+      .detailMain,
+      .detailGrid,
+      .detailSide,
+      .seasonsStack {
+        display: block !important;
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        max-width: 640px !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+      }
+
+      .detailView {
+        display: block !important;
+      }
+
+      .schedule-card {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 0 18px !important;
+        border: 1px solid #cfd4dc !important;
+        border-radius: 10px !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .schedule-card::before {
+        content: "Building Blocks Baseball Schedule";
+        display: block;
+        padding: 14px 16px 10px;
+        background: #fff;
+        color: #111827;
+        font-size: 20px;
+        line-height: 1.15;
+        font-weight: 900;
+        letter-spacing: -.02em;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .schedule-header {
+        background: #d61f2b !important;
+        padding: 12px 16px !important;
+      }
+
+      .schedule-header-left {
+        gap: 9px !important;
+      }
+
+      .schedule-title {
+        font-size: 15px !important;
+        font-weight: 900 !important;
+      }
+
+      .schedule-sub,
+      .schedule-coach {
+        font-size: 11px !important;
+      }
+
+      .week-row {
+        display: flex !important;
+        align-items: center !important;
+        padding: 8px 14px !important;
+        gap: 10px !important;
+        border-bottom: 1px solid #e5e7eb !important;
+        break-inside: avoid;
+      }
+
+      .week-num {
+        min-width: 62px !important;
+        font-size: 10px !important;
+        font-weight: 800 !important;
+      }
+
+      .week-date {
+        font-size: 13px !important;
+        font-weight: 800 !important;
+      }
+
+      .week-sub {
+        font-size: 10px !important;
+      }
+
+      .week-badge {
+        font-size: 10px !important;
+        padding: 3px 8px !important;
+      }
+
+      .detailStatus {
+        padding: 8px 14px 10px !important;
+        margin: 0 !important;
+        font-size: 10px !important;
+        border-top: 1px solid #eef0f3 !important;
+      }
+    }
+      @media print {
+        .schedule-title {
+          font-size: 24px !important;
+        }
+
+        .schedule-sub,
+        .schedule-coach {
+          font-size: 14px !important;
+        }
+
+        .week-row {
+          padding: 15px 22px !important;
+        }
+
+        .week-num {
+          min-width: 92px !important;
+          font-size: 13px !important;
+        }
+
+        .week-date {
+          font-size: 19px !important;
+        }
+
+        .week-badge {
+          font-size: 12px !important;
+          padding: 5px 12px !important;
+        }
+      }
+
+    /* BBB Footer */
+    .directoryFooterWrap {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      margin-top: 18px;
+    }
+
+
+    .showDetail .directoryFooterWrap {
+      display: block;
+      margin-top: 0;
+    }
+
+    .directoryFooterWrap {
+      flex: 0 0 auto;
+    }
+
+    .bbb-footer {
+      position: relative;
+      width: 100vw;
+      min-height: 265px;
+      box-sizing: border-box;
+      overflow: hidden;
+      color: #ffffff;
+      background-image:
+        linear-gradient(90deg, rgba(18,18,18,0.96) 0%, rgba(34,34,34,0.87) 31%, rgba(130,32,34,0.82) 57%, rgba(210,0,0,0.94) 100%),
+        url("https://i.postimg.cc/Njth68PB/Untitled-design-2026-05-30T125340-485.png");
+      background-size: cover;
+      background-position: center 42%;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+      margin-top: 0;
+    }
+
+    .detailShell .bbb-footer {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      margin-top: 32px;
+    }
+
+    .bbb-footer-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 88% 96%, rgba(125,0,0,0.5) 0%, rgba(125,0,0,0.26) 20%, transparent 42%),
+        linear-gradient(90deg, rgba(0,0,0,0.12), transparent 52%);
+      z-index: 1;
+    }
+
+    .bbb-footer-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 28px 30px 42px;
+      display: grid;
+      grid-template-columns: 1.45fr 0.85fr 1.15fr;
+      column-gap: 70px;
+      align-items: start;
+      text-align: center;
+    }
+
+    .bbb-footer-section h2,
+    .bbb-footer-section h3 {
+      font-family: Arial, sans-serif;
+      color: #ff0909;
+      margin: 0;
+      line-height: 1.1;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+    }
+
+    .bbb-footer-section h2 {
+      font-size: 27px;
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    .bbb-footer-section h3 {
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .bbb-brand p {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .bbb-contact { margin-top: 28px; }
+
+    .bbb-contact a {
+      display: block;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.65;
+    }
+
+    .bbb-contact a:hover,
+    .bbb-links a:hover,
+    .bbb-privacy:hover {
+      color: #ff1515;
+      text-decoration: underline;
+    }
+
+    .bbb-privacy {
+      display: inline-block;
+      margin-top: 22px;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .bbb-links { padding-top: 7px; }
+
+    .bbb-links a {
+      display: block;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      margin: 0 0 11px;
+    }
+
+    .bbb-socials {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding-top: 0;
+    }
+
+    .bbb-socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+
+    .bbb-socials a:hover {
+      transform: translateY(-3px) scale(1.04);
+      filter: brightness(1.08);
+    }
+
+    .bbb-socials img {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .bbb-copyright {
+      position: absolute;
+      z-index: 2;
+      bottom: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      text-align: center;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 850px) {
+      .bbb-footer {
+        min-height: auto;
+        background-position: center center;
+        margin-top: 0;
+      }
+
+      .detailShell .bbb-footer { margin-top: 0; }
+
+      .bbb-footer-content {
+        grid-template-columns: 1fr;
+        row-gap: 28px;
+        padding: 34px 22px 76px;
+      }
+
+      .bbb-contact { margin-top: 22px; }
+      .bbb-links { padding-top: 0; }
+      .bbb-socials { gap: 22px; }
+      .bbb-socials img { width: 70px; height: 70px; }
+      .bbb-copyright { bottom: 24px; font-size: 12px; }
+    }
+
+    @media (max-width: 480px) {
+      .bbb-footer-content { padding: 30px 16px 78px; }
+      .bbb-footer-section h2 { font-size: 24px; }
+      .bbb-footer-section h3 { font-size: 19px; }
+      .bbb-brand p,
+      .bbb-contact a,
+      .bbb-links a { font-size: 14px; }
+      .bbb-socials img { width: 62px; height: 62px; }
+    }
+
+    @media print { .bbb-footer { display: none !important; } }
+
+  </style>
 </head>
 <body>
-  <div data-site-header></div>
-  <main data-school-detail></main>
-  <div data-site-footer></div>
-  <script src="../assets/js/main.js"></script>
-  <script src="../assets/js/schools.js"></script>
+  <div class="bg-ball ball-1" aria-hidden="true"></div>
+  <div class="bg-ball ball-2" aria-hidden="true"></div>
+  <div class="bg-ball ball-3" aria-hidden="true"></div>
+  <div class="bg-ball ball-4" aria-hidden="true"></div>
+  
+  <div class="page" id="appPage">
+    <section class="hero">
+      <div class="brandRow">
+        <div class="brandLogoWrap">
+          <img id="brandLogo" class="brandLogo" alt="Building Blocks Baseball logo" style="display:none;" />
+          <div id="brandLogoFallback" class="brandLogoPlaceholder">BBB</div>
+        </div>
+        <div class="brandText">
+          <span class="brandTextTop">Building Blocks</span>
+          <span class="brandTextBottom">Baseball</span>
+        </div>
+      </div>
+      <h1>Find Your School</h1>
+      <p>Search by school name, season, or keyword. Filter by city.</p>
+    </section>
+    
+    <main class="directoryView" id="directoryView">
+      <section class="controlsWrap">
+        <div class="searchRow">
+          <div class="searchShell">
+            <svg class="searchIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0a7 7 0 0114 0z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input id="q" class="searchInput" placeholder="Search schools, city, season, coach..." autocomplete="off" />
+            <button id="clearBtn" class="clearBtn" type="button" aria-label="Clear search">&#215;</button>
+          </div>
+          <button class="searchBtn" type="button" tabindex="-1">Search</button>
+        </div>
+        <div class="filterLabel">Cities</div>
+        <div class="pillsOuter">
+          <div class="pills" id="cityPills"></div>
+        </div>
+      </section>
+      
+      <div class="sortRow">
+        <div class="sortWrap">
+          <label for="sortSelect">Sort</label>
+          <select id="sortSelect" class="sortSelect">
+            <option value="az">A&#8211;Z</option>
+            <option value="day">Day of Week</option>
+            <option value="opening">Opening Day</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="grid" id="grid"></div>
+      
+      <div class="empty" id="empty">
+        <div class="emptyTitle">No schools found</div>
+        <div class="emptySub" id="emptySub">Try clearing your search or removing a filter.</div>
+        <div class="emptyActions">
+          <button class="emptyBtn" id="clearSearchBtn" type="button">Clear Search</button>
+          <button class="emptyBtn" id="clearFiltersBtn" type="button">Clear City Filter</button>
+        </div>
+      </div>
+
+    </main>
+    
+    <main class="detailView" id="detailView">
+      <div id="detailMount"></div>
+    </main>
+    
+    <div class="resultsMeta" id="resultsMeta">
+      <span class="dot" id="dot"></span>
+      <span id="statusText">Loading schools&#8230;</span>
+    </div>
+
+    <div class="directoryFooterWrap">
+<div class="bbb-footer">
+  <div class="bbb-footer-overlay"></div>
+  <div class="bbb-footer-content">
+    <div class="bbb-footer-section bbb-brand">
+      <h2>Building Blocks Baseball</h2>
+      <p>Putting the FUN in FUNdamentals</p>
+      <div class="bbb-contact">
+        <h3>Contact Us</h3>
+        <a href="mailto:Coachken@buildingblocksbaseballstl.com">Coachken@buildingblocksbaseballstl.com</a>
+        <a href="tel:3146041031">314-604-1031</a>
+      </div>
+      <a class="bbb-privacy" href="https://www.buildingblocksbaseballstl.com/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+    </div>
+    <div class="bbb-footer-section bbb-links">
+      <h3>Explore</h3>
+      <a href="https://www.buildingblocksbaseballstl.com/home" target="_blank" rel="noopener">Home</a>
+      <a href="https://www.buildingblocksbaseballstl.com/our-program" target="_blank" rel="noopener">Our Program</a>
+      <a href="https://www.buildingblocksbaseballstl.com/schools" target="_blank" rel="noopener">Schools</a>
+      <a href="https://www.buildingblocksbaseballstl.com/parent-faq" target="_blank" rel="noopener">Parent FAQ</a>
+    </div>
+    <div class="bbb-footer-section bbb-socials">
+      <a href="https://www.instagram.com/buildingblocksbaseball/" target="_blank" rel="noopener" aria-label="Instagram"><img src="https://i.postimg.cc/NfrCPyrB/unnamed-(13).png" alt="Instagram"></a>
+      <a href="https://www.facebook.com/BuildingBlocksBaseball/" target="_blank" rel="noopener" aria-label="Facebook"><img src="https://i.postimg.cc/sDZH0BZy/unnamed-(14).png" alt="Facebook"></a>
+    </div>
+  </div>
+  <div class="bbb-copyright">© 2026 Building Blocks Baseball. All rights reserved.</div>
+</div>
+    </div>
+  </div>
+
+  <script>
+    const LOGO_URL="https://i.postimg.cc/gcMmd9s3/unnamed-(10).png";
+    const SHEET_CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vQuAq5NjGdfo7iIz9siQ6X6KiTCWZwCOWxOYcFjlJa-NW7c2am7KvozTEN30HyaBrmOb8gFQRouK57y/pub?output=csv";
+    const REGISTER_URL="https://form.jotform.com/260777742495067";
+    const FAQ_URL="https://www.buildingblocksbaseballstl.com/parent-faq";
+    const CONTACT_URL="https://www.buildingblocksbaseballstl.com/get-in-touch";
+    const BASE_CAL_URL="https://script.google.com/macros/s/AKfycbwX5VA6LH0C8sG-WNhACNE_VheoyyEo8Gg9a-07km6i26UJ1TGxsfb6LslGauhRLPbl9g/exec";
+    const FETCH_URL=()=>SHEET_CSV_URL+"&cb="+Date.now();
+    const DAY_ORDER=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const BBB_FOOTER_HTML=`
+<div class="bbb-footer">
+  <div class="bbb-footer-overlay"></div>
+  <div class="bbb-footer-content">
+    <div class="bbb-footer-section bbb-brand">
+      <h2>Building Blocks Baseball</h2>
+      <p>Putting the FUN in FUNdamentals</p>
+      <div class="bbb-contact">
+        <h3>Contact Us</h3>
+        <a href="mailto:Coachken@buildingblocksbaseballstl.com">Coachken@buildingblocksbaseballstl.com</a>
+        <a href="tel:3146041031">314-604-1031</a>
+      </div>
+      <a class="bbb-privacy" href="https://www.buildingblocksbaseballstl.com/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+    </div>
+    <div class="bbb-footer-section bbb-links">
+      <h3>Explore</h3>
+      <a href="https://www.buildingblocksbaseballstl.com/home" target="_blank" rel="noopener">Home</a>
+      <a href="https://www.buildingblocksbaseballstl.com/our-program" target="_blank" rel="noopener">Our Program</a>
+      <a href="https://www.buildingblocksbaseballstl.com/schools" target="_blank" rel="noopener">Schools</a>
+      <a href="https://www.buildingblocksbaseballstl.com/parent-faq" target="_blank" rel="noopener">Parent FAQ</a>
+    </div>
+    <div class="bbb-footer-section bbb-socials">
+      <a href="https://www.instagram.com/buildingblocksbaseball/" target="_blank" rel="noopener" aria-label="Instagram"><img src="https://i.postimg.cc/NfrCPyrB/unnamed-(13).png" alt="Instagram"></a>
+      <a href="https://www.facebook.com/BuildingBlocksBaseball/" target="_blank" rel="noopener" aria-label="Facebook"><img src="https://i.postimg.cc/sDZH0BZy/unnamed-(14).png" alt="Facebook"></a>
+    </div>
+  </div>
+  <div class="bbb-copyright">© 2026 Building Blocks Baseball. All rights reserved.</div>
+</div>
+`;
+
+    const brandLogoEl=document.getElementById("brandLogo"),brandLogoFallbackEl=document.getElementById("brandLogoFallback"),qEl=document.getElementById("q"),clearBtn=document.getElementById("clearBtn"),cityPillsEl=document.getElementById("cityPills"),sortSelect=document.getElementById("sortSelect"),gridEl=document.getElementById("grid"),emptyEl=document.getElementById("empty"),emptySubEl=document.getElementById("emptySub"),dotEl=document.getElementById("dot"),statusTextEl=document.getElementById("statusText"),clearSearchBtn=document.getElementById("clearSearchBtn"),clearFiltersBtn=document.getElementById("clearFiltersBtn"),appPage=document.getElementById("appPage"),detailMount=document.getElementById("detailMount"),resultsMeta=document.getElementById("resultsMeta");
+
+    let rawSchools=[],groupedSchools=[],activeCity="All",searchTimer=null,isLoading=true,savedScrollY=0;
+
+    if(LOGO_URL){brandLogoEl.src=LOGO_URL;brandLogoEl.style.display="block";brandLogoFallbackEl.style.display="none"}
+
+    function nameToHash(name){return encodeURIComponent(name.toLowerCase().replace(/\s+/g,"-"))}
+    function hashToName(hash){return decodeURIComponent(hash.replace(/^#/,"")).replace(/-/g," ")}
+    function setStatus(ok,text){dotEl.className="dot"+(ok===true?" ok":ok===false?" bad":"");statusTextEl.textContent=text}
+    function ordinal(n){const s=["th","st","nd","rd"],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0])}
+    function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+    function escapeRegex(str){return String(str).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}
+    function normSearch(s){return String(s||"").toLowerCase().replace(/&/g," and ").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim()}
+    function capFirst(s){return s?s.charAt(0).toUpperCase()+s.slice(1):s}
+    function normH(h){return String(h||"").trim().toLowerCase().replace(/\s+/g,"").replace(/[^a-z0-9]/g,"")}
+    function pick(o,keys){for(const k of keys){const kk=normH(k);if(o[kk]!=null&&String(o[kk]).trim()!=="")return String(o[kk]).trim()}return""}
+
+    function cityFromAddress(addr){
+      if(!addr||!addr.trim())return"";
+      const parts=addr.split(",").map(s=>s.trim()).filter(Boolean);
+      if(parts.length>=2){const candidate=parts[parts.length-1];if(/^\s*[A-Z]{2}\s*\d*\s*$/.test(candidate)&&parts.length>=2)return parts[parts.length-2];return candidate;}
+      return parts[0]||"";
+    }
+
+    function parseDate(str){
+      if(!str)return null;str=String(str).trim();
+      const pts=str.split("/");
+      if(pts.length>=2){const mo=parseInt(pts[0]),d=parseInt(pts[1]);let yr=pts.length>=3?parseInt(pts[2]):new Date().getFullYear();if(yr<100)yr+=2000;if(mo>=1&&mo<=12&&d>=1&&d<=31)return new Date(yr,mo-1,d)}
+      const months={january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11};
+      const m=str.toLowerCase().match(/([a-z]+)\s+(\d+)/);
+      if(m&&months[m[1]]!==undefined)return new Date(new Date().getFullYear(),months[m[1]],parseInt(m[2]));
+      return null;
+    }
+
+    function formatDate(d){return d.toLocaleDateString("en-US",{month:"long"})+" "+ordinal(d.getDate())}
+    function formatOpeningDay(raw){if(!raw||!raw.trim())return"";const d=parseDate(raw);return d?formatDate(d):String(raw).trim()}
+    function sameDay(a,b){return a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()}
+
+    function parseSkips(str){
+      if(!str||!str.trim())return[];
+      return str.split(',').map(s=>{s=s.trim();const pts=s.split(':');return{date:parseDate((pts[0]||"").trim()),reason:(pts[1]||"Closed").trim()||"Closed",makeupDate:pts[2]&&pts[2].trim()?parseDate(pts[2].trim()):null,makeupCoach:(pts[3]||"").trim()||null}}).filter(x=>x.date);
+    }
+
+    function generateSchedule(openDate,weeks,skipList,schoolCoach){
+      const entries=[];let current=new Date(openDate),classCount=0,maxIter=weeks+skipList.length+30,iter=0;
+      const makeups=skipList.filter(s=>s.makeupDate).map((s,i)=>({id:i,date:new Date(s.makeupDate),coach:s.makeupCoach||schoolCoach})),used=new Set();
+      function flushMakeups(before){makeups.forEach((mu,i)=>{if(!used.has(i)&&mu.date<before&&!sameDay(mu.date,before)){entries.push({date:new Date(mu.date),type:'makeup',coach:mu.coach});used.add(i);classCount++}})}
+      while(classCount<weeks&&iter<maxIter){
+        iter++;flushMakeups(current);if(classCount>=weeks)break;
+        const muHere=makeups.find((mu,i)=>!used.has(i)&&sameDay(mu.date,current)),skip=skipList.find(s=>sameDay(s.date,current));
+        if(muHere){const idx=makeups.indexOf(muHere);if(skip)entries.push({date:new Date(current),type:'skipped',reason:skip.reason,coach:schoolCoach});entries.push({date:new Date(muHere.date),type:'makeup',coach:muHere.coach});used.add(idx);classCount++}
+        else if(skip){entries.push({date:new Date(current),type:'skipped',reason:skip.reason,coach:schoolCoach})}
+        else{entries.push({date:new Date(current),type:'practice',coach:schoolCoach});classCount++}
+        current=new Date(current);current.setDate(current.getDate()+7);
+      }
+      makeups.forEach((mu,i)=>{if(!used.has(i))entries.push({date:new Date(mu.date),type:'makeup',coach:mu.coach})});
+      entries.sort((a,b)=>a.date-b.date);return entries;
+    }
+
+    function isRowActive(s){if(!s.active||s.active.trim()==="")return true;return s.active.trim().toLowerCase()==="yes";}
+    function isRegOpen(s){if(!s.regOpen||s.regOpen.trim()==="")return true;return s.regOpen.trim().toLowerCase()==="yes";}
+    function displayCoach(name){if(!name||!name.trim())return"";return"Coach "+name.trim().replace(/^coach\s+/i,"")}
+
+    function getNextPractice(seasons){
+      const today=new Date();today.setHours(0,0,0,0);
+      for(const s of seasons){
+        const openDate=parseDate(s.openingDay);if(!openDate)continue;
+        const weeksN=parseInt(s.weeks)||8,skipList=parseSkips(s.skipDates||"");
+        const schedule=generateSchedule(openDate,weeksN,skipList,s.coach);
+        const next=schedule.find(e=>(e.type==='practice'||e.type==='makeup')&&e.date>=today);
+        if(next)return next.date;
+      }
+      return null;
+    }
+
+    function parseCSV(text){
+      const rows=[];let row=[],field="",inQ=false;
+      for(let i=0;i<text.length;i++){
+        const c=text[i],n=text[i+1];
+        if(c==='"'&&inQ&&n==='"'){field+='"';i++;continue}if(c==='"'){inQ=!inQ;continue}
+        if(!inQ&&c===','){row.push(field);field="";continue}
+        if(!inQ&&(c==='\n'||c==='\r')){if(c==='\r'&&n==='\n')i++;row.push(field);if(!row.every(x=>String(x||"").trim()===""))rows.push(row);row=[];field="";continue}
+        field+=c;
+      }
+      row.push(field);if(!row.every(x=>String(x||"").trim()===""))rows.push(row);return rows;
+    }
+
+    function updateClearButton(){clearBtn.classList.toggle("show",qEl.value.trim().length>0)}
+    function highlightMatch(text){const q=qEl.value.trim();if(!q)return esc(text);return esc(text).replace(new RegExp("("+escapeRegex(q)+")","ig"),'<span class="highlight">$1</span>')}
+    function parseMonthDay(raw){if(!raw||!raw.trim())return null;const d=parseDate(raw);if(d)return{month:d.getMonth(),day:d.getDate()};return null;}
+
+    function sortList(list){
+      const mode=sortSelect.value;
+      if(mode==="day")return list.sort((a,b)=>{const ad=a.seasons[0]?.day||"",bd=b.seasons[0]?.day||"";const ai=DAY_ORDER.indexOf(ad.trim()),bi=DAY_ORDER.indexOf(bd.trim());const av=ai===-1?99:ai,bv=bi===-1?99:bi;if(av!==bv)return av-bv;return a.name.localeCompare(b.name);});
+      if(mode==="opening")return list.sort((a,b)=>{const ad=parseMonthDay(a.seasons[0]?.openingDay),bd=parseMonthDay(b.seasons[0]?.openingDay);const av=ad?(ad.month*100+ad.day):9999,bv=bd?(bd.month*100+bd.day):9999;if(av!==bv)return av-bv;return a.name.localeCompare(b.name);});
+      return list.sort((a,b)=>a.name.localeCompare(b.name));
+    }
+
+    function isSeasonOngoing(s){
+      const today=new Date();today.setHours(0,0,0,0);
+      const openDate=parseDate(s.openingDay);if(!openDate)return false;
+      const weeksN=parseInt(s.weeks)||8,skipList=parseSkips(s.skipDates||"");
+      const schedule=generateSchedule(openDate,weeksN,skipList,s.coach);
+      const last=[...schedule].reverse().find(x=>x.type==='practice'||x.type==='makeup');
+      return openDate<=today&&(!last||last.date>=today);
+    }
+
+    function scheduleHTML(s,label,today){
+      const weeksN=parseInt(s.weeks)||8;
+      const subLine=[s.season,weeksN+" weeks",s.cost?"$"+s.cost:null,s.day,s.time].filter(Boolean).join(" \u00b7 ");
+      const titleLabel=label?`${esc(s.season||'')} <span style="font-size:11px;opacity:.8;font-weight:700">(${esc(label)})</span>`:esc(s.season||s.name);
+      const headerHTML=`<div class="schedule-header"><div class="schedule-header-left"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><div class="schedule-header-text"><p class="schedule-title">${titleLabel} Schedule</p><p class="schedule-sub">${esc(subLine)}</p>${s.coach?`<p class="schedule-coach">&#128100; ${esc(displayCoach(s.coach))}</p>`:""}</div></div><div class="schedule-actions"><button class="print-btn" type="button" title="Print schedule" aria-label="Print schedule"><span class="print-icon">&#128438;</span><span>Print</span></button></div></div>`;
+      const openDate=parseDate(s.openingDay);
+      if(!openDate)return headerHTML+`<div class="no-practices"><strong>Schedule unavailable.</strong> Opening date could not be read.</div>`;
+      const skipList=parseSkips(s.skipDates||""),schedule=generateSchedule(openDate,weeksN,skipList,s.coach);
+      const ftParsed=s.ftDate?parseDate(s.ftDate):null,allEntries=[...schedule];
+      if(ftParsed){allEntries.push({date:ftParsed,type:'freetrial',coach:s.ftCoach||s.coach,ftTime:s.ftTime||s.time});allEntries.sort((a,b)=>a.date-b.date)}
+      const nextPracticeEntry=schedule.find(e=>(e.type==='practice'||e.type==='makeup')&&e.date>=today);
+      let classNum=0,rowsHtml='';
+      for(const e of allEntries){
+        if(e.type==='practice'||e.type==='makeup')classNum++;
+        let weekLabel='',badgeClass='',badgeText='',subText='',rowClass='';
+        const isNext=nextPracticeEntry&&sameDay(e.date,nextPracticeEntry.date)&&(e.type==='practice'||e.type==='makeup');
+        if(e.type==='practice'){weekLabel='Week '+classNum;badgeClass=isNext?'badge-next':'badge-ok';badgeText=isNext?'Next':'Scheduled';if(isNext)rowClass='next-practice'}
+        else if(e.type==='skipped'){badgeClass='badge-skip';badgeText=capFirst(e.reason);rowClass='skipped'}
+        else if(e.type==='makeup'){weekLabel='Week '+classNum;badgeClass=isNext?'badge-next':'badge-makeup';badgeText=isNext?'Next':'Makeup';rowClass=isNext?'next-practice':'makeup';const muCoachNorm=(e.coach||"").trim().replace(/^coach\s+/i,"").toLowerCase(),regCoachNorm=(s.coach||"").trim().replace(/^coach\s+/i,"").toLowerCase();if(e.coach&&muCoachNorm!==regCoachNorm)subText=displayCoach(e.coach)}
+        else if(e.type==='freetrial'){weekLabel='Free Trial';badgeClass='badge-trial';badgeText='Free Trial';rowClass='freetrial';const ftCoachNorm=(e.coach||"").trim().replace(/^coach\s+/i,"").toLowerCase(),regCoachNorm=(s.coach||"").trim().replace(/^coach\s+/i,"").toLowerCase(),showFtCoach=e.coach&&ftCoachNorm!==regCoachNorm,pts=[];if(e.ftTime)pts.push(e.ftTime);if(showFtCoach)pts.push(displayCoach(e.coach));subText=pts.join(' \u00b7 ')}
+        rowsHtml+=`<div class="week-row ${rowClass}"><span class="week-num">${esc(weekLabel)}</span><div class="week-date-wrap"><div class="week-date">${formatDate(e.date)}</div>${subText?`<div class="week-sub">${esc(subText)}</div>`:''}</div><span class="week-badge ${badgeClass}">${esc(badgeText)}</span></div>`;
+      }
+      const last=[...schedule].reverse().find(x=>x.type==='practice'||x.type==='makeup');
+      return headerHTML+`<div class="schedule-body">${rowsHtml}</div><div class="schedule-live-note">Live schedule &middot; updates automatically</div>`;
+    }
+
+    function openDetail(group,pushState=true){
+      gridEl.querySelectorAll(".btn.loading").forEach(b=>{b.classList.remove("loading");b.disabled=false;});
+      savedScrollY=window.scrollY;
+      appPage.classList.add("showDetail");resultsMeta.style.display="none";window.scrollTo({top:0,behavior:"smooth"});
+      if(pushState)history.pushState(null,"","#"+nameToHash(group.name));
+
+      const today=new Date();today.setHours(0,0,0,0);
+      const ongoingSeasons=group.seasons.filter(s=>isSeasonOngoing(s));
+      const upcomingSeasons=group.seasons.filter(s=>{const openDate=parseDate(s.openingDay);return openDate&&openDate>today;});
+      const primary=upcomingSeasons.length>0?upcomingSeasons[0]:group.seasons[0];
+      const opening=formatOpeningDay(primary.openingDay)||"TBA";
+
+      const regOpenSeason=group.seasons.find(s=>isRegOpen(s));
+      const anyRegOpen=!!regOpenSeason;
+      const regSeason=regOpenSeason||primary;
+      const closedReason=!anyRegOpen?(group.seasons[0].regClosedReason||"Registration is not currently open"):"";
+
+      const nextPractice=getNextPractice(group.seasons);
+      const nextPracticeText=nextPractice?formatDate(nextPractice):null;
+      const coaches=[...new Set(group.seasons.map(s=>s.coach).filter(Boolean).map(c=>displayCoach(c)))];
+
+      const regButtonHTML=anyRegOpen
+        ?`<a class="bigRegister" href="${REGISTER_URL}" target="_blank" rel="noopener">Register for ${esc(regSeason.season||primary.name)} &rarr;</a>`
+        :`<button class="bigRegister closed" disabled>Registration Closed</button>`;
+      const statusBannerHTML=anyRegOpen
+        ?`<div class="regOpenBanner">&#9989; Registration is currently open for ${esc(regSeason.season||primary.name)}.</div>`
+        :`<div class="regClosedBanner">&#9888;&#65039; ${esc(closedReason)}</div>`;
+
+      const statsItems=[];
+      if(nextPracticeText)statsItems.push(`<div class="qStat"><div class="qStat-label">Next Practice</div><div class="qStat-value highlight-next">${esc(nextPracticeText)}</div></div><div class="qDivider"></div>`);
+      statsItems.push(`<div class="qStat"><div class="qStat-label">Opening Day</div><div class="qStat-value">${esc(opening)}</div></div>`);
+      if(primary.day)statsItems.push(`<div class="qDivider"></div><div class="qStat"><div class="qStat-label">Day</div><div class="qStat-value">${esc(primary.day)}</div></div>`);
+      if(primary.time)statsItems.push(`<div class="qDivider"></div><div class="qStat"><div class="qStat-label">Time</div><div class="qStat-value">${esc(primary.time)}</div></div>`);
+      if(primary.cost)statsItems.push(`<div class="qDivider"></div><div class="qStat"><div class="qStat-label">Cost</div><div class="qStat-value">$${esc(primary.cost)}</div></div>`);
+      if(coaches.length)statsItems.push(`<div class="qDivider"></div><div class="qStat"><div class="qStat-label">Coach</div><div class="qStat-value">${coaches.map(c=>esc(c)).join(', ')}</div></div>`);
+      const quickStatsHTML=`<div class="quickStats">${statsItems.join('')}</div>`;
+
+      const programSnapshotHTML=`<details class="programSnapshot">
+        <summary>
+          <span class="snapshotSummaryText"><strong>Program Snapshot</strong><small>Tap to view what is included with this program</small></span>
+          <span class="snapshotArrow" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="snapshotContent">
+          <div class="snapshotGrid">
+            <div class="snapshotItem"><span>⚾</span><div><strong>Equipment Provided</strong><small>No need to bring equipment—everything needed for practices is provided.</small></div></div>
+            <div class="snapshotItem"><span>⏱️</span><div><strong>45 Minute Sessions</strong><small>Age-appropriate instruction</small></div></div>
+            <div class="snapshotItem"><span>🏫</span><div><strong>At Your School</strong><small>No additional travel required</small></div></div>
+            <div class="snapshotItem"><span>🎁</span><div><strong>Completion Gift</strong><small>Every player receives a gift</small></div></div>
+            <div class="snapshotItem"><span>🧢</span><div><strong>Small Group Instruction</strong><small>Supportive coaching for young players</small></div></div>
+            <div class="snapshotItem"><span>⭐</span><div><strong>Positive Coaching</strong><small>Confidence-building and fun-first learning</small></div></div>
+          </div>
+        </div>
+      </details>`;
+
+      const icsUrl=BASE_CAL_URL+"?school="+encodeURIComponent(primary.name);
+      const webcalUrl=icsUrl.replace("https://","webcal://");
+      const googleCalUrl="https://calendar.google.com/calendar/r?cid="+encodeURIComponent(webcalUrl);
+
+      const multiSeason=group.seasons.length>1;
+      const schedulesHTML=[
+        ...ongoingSeasons.map(s=>`<div class="schedule-card">${scheduleHTML(s,multiSeason?'Ongoing':null,today)}</div>`),
+        ...upcomingSeasons.map(s=>`<div class="schedule-card">${scheduleHTML(s,multiSeason?'Upcoming':null,today)}</div>`)
+      ].join("");
+
+      detailMount.innerHTML=`<section class="detailShell">
+        <button class="mobileBackBar" id="mobileBackBtn" type="button">&#8592; Back to Schools</button>
+        <div class="detailHero"><button class="detailBack" id="backToSchools" type="button">&larr; Back to Schools</button><h1 class="detailSchoolTitle">${esc(primary.name)}</h1></div>
+        <div class="detailMain">
+          <div class="regSection">${regButtonHTML}${statusBannerHTML}</div>
+          ${quickStatsHTML}
+          ${programSnapshotHTML}
+          <div class="detailGrid">
+            <div>
+              <div class="detailButtons">
+                <a class="blackButton" href="${FAQ_URL}" target="_blank" rel="noopener"><span><span class="icon">?</span> Parent FAQ</span><span class="arrow">&rarr;</span></a>
+                <a class="blackButton" href="${CONTACT_URL}" target="_blank" rel="noopener"><span><span class="icon">&#9743;</span> Contact Us</span><span class="arrow">&rarr;</span></a>
+                <button class="shareButton" id="shareSchoolBtn" type="button"><span class="shareBtnLabel"><span class="icon">↗</span> Share this school</span></button>
+              </div>
+              <p class="changeNote">Events are subject to change, and rainouts can occur. Makeup classes will be rescheduled and posted on the schedule.</p>
+            </div>
+            <div class="detailSide">
+              <div class="calBlock"><div class="calRow"><a class="calLink" href="${googleCalUrl}" target="_blank" rel="noopener">&#128197; Google Calendar</a><a class="calLink" href="${webcalUrl}">&#63743; Apple Calendar</a></div><p class="calNote">Current season only &middot; Updates live from our schedule &middot; Syncs every ~24 hrs</p></div>
+              <div class="seasonsStack">${schedulesHTML}</div>
+            </div>
+          </div>
+        </div>
+      </section>`;
+
+      document.getElementById("backToSchools").addEventListener("click",closeDetail);
+      document.getElementById("mobileBackBtn").addEventListener("click",closeDetail);
+
+      const shareBtn=document.getElementById("shareSchoolBtn");
+      if(shareBtn){
+        shareBtn.addEventListener("click",async()=>{
+          const basePageUrl="https://www.buildingblocksbaseballstl.com/schools";
+          const copyText=
+            "See the schedule, sign up, and learn more about the Building Blocks Baseball program at "+group.name+":\n"+
+            basePageUrl+"\n\n"+
+            "Once the page opens, search \""+group.name+"\".";
+
+          const label=shareBtn.querySelector(".shareBtnLabel");
+          const originalHTML=label?label.innerHTML:shareBtn.innerHTML;
+
+          try{
+            await navigator.clipboard.writeText(copyText);
+            showShareButtonCopied(shareBtn,label,originalHTML);
+          }catch(err){
+            const temp=document.createElement("textarea");
+            temp.value=copyText;
+            temp.setAttribute("readonly","");
+            temp.style.position="fixed";
+            temp.style.left="-9999px";
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand("copy");
+            temp.remove();
+            showShareButtonCopied(shareBtn,label,originalHTML);
+          }
+        });
+      }
+
+      detailMount.querySelectorAll(".print-btn").forEach(btn=>{
+        btn.addEventListener("click",()=>openSchedulePrintPage(btn));
+      });
+    }
+
+    function openSchedulePrintPage(button){
+      const card=button.closest(".schedule-card");
+      if(!card){
+        window.print();
+        return;
+      }
+
+      const schoolTitle=document.querySelector(".detailSchoolTitle")?.textContent?.trim()||"Building Blocks Baseball";
+      const printableCard=card.cloneNode(true);
+      printableCard.querySelectorAll(".schedule-actions,.schedule-live-note,.print-btn,.detailStatus").forEach(el=>el.remove());
+
+      const printWindow=window.open("", "_blank");
+      if(!printWindow){
+        alert("Your browser blocked the print window. Please allow pop-ups for this site, then tap Print again.");
+        return;
+      }
+
+      const html=`<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>${esc(schoolTitle)} Schedule</title>
+  <style>
+    :root{--brand:#d61f2b;--text:#111827}
+    *{box-sizing:border-box}
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    html,body{margin:0;padding:0;background:#f3f4f6;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;display:block;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    .printWrap{width:min(760px, calc(100vw - 48px));max-width:760px;margin:24px 0 24px 24px;padding:0}
+    .printTop{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    .printBrand{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#d61f2b;margin:0 0 5px}
+    h1{font-size:30px;line-height:1.08;margin:0;color:#111827;letter-spacing:-.035em}
+    .printHint{margin:8px 0 0;color:#6b7280;font-size:13px;font-weight:700}
+    .printControls{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 0}
+    .printNow,.closeBtn{border:none;border-radius:999px;padding:10px 14px;font-size:13px;font-weight:900;cursor:pointer}
+    .printNow{background:#d61f2b;color:#fff}
+    .closeBtn{background:#f3f4f6;color:#111827}
+    .schedule-card{width:min(760px, calc(100vw - 48px));max-width:760px;background:#fff;border:1px solid #d1d5db;border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    .schedule-header{background:#d61f2b!important;color:#fff!important;padding:18px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    .schedule-header-left{display:flex;align-items:flex-start;gap:10px;flex:1}
+    .schedule-header svg{flex-shrink:0;margin-top:2px}
+    .schedule-title{font-size:22px;font-weight:900;margin:0;letter-spacing:.1px}
+    .schedule-sub{font-size:14px;margin:4px 0 0;opacity:.9;font-weight:750}
+    .schedule-coach{font-size:13px;margin:7px 0 0;font-weight:850}
+    .schedule-body{padding:0}
+    .week-row{display:flex;align-items:center;padding:14px 20px;border-bottom:1px solid #e5e7eb;gap:14px}
+    .week-row:last-child{border-bottom:none}
+    .week-row.skipped{background:#fef2f2}
+    .week-row.makeup{background:#eff6ff}
+    .week-row.freetrial{background:#fffbeb}
+    .week-row.next-practice{background:#fff1f2;border-left:4px solid #d61f2b}
+    .week-num{font-size:12px;font-weight:850;color:#4b5563;min-width:84px;flex-shrink:0}
+    .week-date-wrap{flex:1}
+    .week-date{font-size:18px;font-weight:900;color:#111827}
+    .week-row.skipped .week-date{color:#9ca3af;text-decoration:line-through}
+    .week-sub{font-size:12px;color:#5b667a;font-weight:750;margin-top:3px}
+    .week-badge{font-size:12px;font-weight:850;padding:5px 11px;border-radius:999px;flex-shrink:0}
+    .badge-ok{background:#dcfce7;color:#166534}
+    .badge-skip{background:#fee2e2;color:#991b1b}
+    .badge-makeup{background:#dbeafe;color:#1d4ed8}
+    .badge-trial{background:#fef3c7;color:#92400e}
+    .badge-next{background:#ffe4e6;color:#be123c}
+    .detailStatus{display:none!important}
+    .detailStatus .miniDot{width:7px;height:7px;border-radius:999px;background:#22c55e;flex-shrink:0}
+    @media print{
+      @page{size:letter portrait;margin:.18in}
+      html,body{background:#fff!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+      .printWrap{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important}
+      .printTop{box-shadow:none;border:none;border-radius:0;padding:0 0 12px;margin:0 0 10px}
+      .printBrand{font-size:11px}
+      h1{font-size:30px}
+      .printHint,.printControls{display:none!important}
+      .schedule-card{display:block!important;width:100%!important;max-width:100%!important;margin:0!important;box-shadow:none;border:1px solid #cfd4dc;border-radius:12px;break-inside:avoid;page-break-inside:avoid}
+      .week-row{display:flex!important;width:100%!important;padding:14px 20px;break-inside:avoid}
+      .schedule-header{display:flex!important;width:100%!important;padding:18px 20px;background:#d61f2b!important;color:#fff!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+
+
+      .printWrap {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .schedule-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      body {
+        display: block !important;
+        width: auto !important;
+        margin: 0 !important;
+      }
+      .schedule-body,
+      .detailStatus {
+        width: 100% !important;
+      }
+
+      body {
+        display: block !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+      }
+    }
+
+    /* BBB Footer */
+    .bbb-footer {
+      position: relative;
+      width: 100vw;
+      min-height: 265px;
+      box-sizing: border-box;
+      overflow: hidden;
+      color: #ffffff;
+      background-image:
+        linear-gradient(90deg, rgba(18,18,18,0.96) 0%, rgba(34,34,34,0.87) 31%, rgba(130,32,34,0.82) 57%, rgba(210,0,0,0.94) 100%),
+        url("https://i.postimg.cc/Njth68PB/Untitled-design-2026-05-30T125340-485.png");
+      background-size: cover;
+      background-position: center 42%;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+      margin-top: 38px;
+    }
+
+    .detailShell .bbb-footer {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      margin-top: 32px;
+    }
+
+    .bbb-footer-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 88% 96%, rgba(125,0,0,0.5) 0%, rgba(125,0,0,0.26) 20%, transparent 42%),
+        linear-gradient(90deg, rgba(0,0,0,0.12), transparent 52%);
+      z-index: 1;
+    }
+
+    .bbb-footer-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 28px 30px 42px;
+      display: grid;
+      grid-template-columns: 1.45fr 0.85fr 1.15fr;
+      column-gap: 70px;
+      align-items: start;
+      text-align: center;
+    }
+
+    .bbb-footer-section h2,
+    .bbb-footer-section h3 {
+      font-family: Arial, sans-serif;
+      color: #ff0909;
+      margin: 0;
+      line-height: 1.1;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+    }
+
+    .bbb-footer-section h2 {
+      font-size: 27px;
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    .bbb-footer-section h3 {
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .bbb-brand p {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .bbb-contact { margin-top: 28px; }
+
+    .bbb-contact a {
+      display: block;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.65;
+    }
+
+    .bbb-contact a:hover,
+    .bbb-links a:hover,
+    .bbb-privacy:hover {
+      color: #ff1515;
+      text-decoration: underline;
+    }
+
+    .bbb-privacy {
+      display: inline-block;
+      margin-top: 22px;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .bbb-links { padding-top: 7px; }
+
+    .bbb-links a {
+      display: block;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      margin: 0 0 11px;
+    }
+
+    .bbb-socials {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding-top: 0;
+    }
+
+    .bbb-socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+
+    .bbb-socials a:hover {
+      transform: translateY(-3px) scale(1.04);
+      filter: brightness(1.08);
+    }
+
+    .bbb-socials img {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .bbb-copyright {
+      position: absolute;
+      z-index: 2;
+      bottom: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      text-align: center;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 850px) {
+      .bbb-footer {
+        min-height: auto;
+        background-position: center center;
+        margin-top: 0;
+      }
+
+      .detailShell .bbb-footer { margin-top: 0; }
+
+      .bbb-footer-content {
+        grid-template-columns: 1fr;
+        row-gap: 28px;
+        padding: 34px 22px 76px;
+      }
+
+      .bbb-contact { margin-top: 22px; }
+      .bbb-links { padding-top: 0; }
+      .bbb-socials { gap: 22px; }
+      .bbb-socials img { width: 70px; height: 70px; }
+      .bbb-copyright { bottom: 24px; font-size: 12px; }
+    }
+
+    @media (max-width: 480px) {
+      .bbb-footer-content { padding: 30px 16px 78px; }
+      .bbb-footer-section h2 { font-size: 24px; }
+      .bbb-footer-section h3 { font-size: 19px; }
+      .bbb-brand p,
+      .bbb-contact a,
+      .bbb-links a { font-size: 14px; }
+      .bbb-socials img { width: 62px; height: 62px; }
+    }
+
+    @media print { .bbb-footer { display: none !important; } }
+
+  </style>
+</head>
+<body>
+  <div class="printWrap">
+    <div class="printTop">
+      <p class="printBrand">Building Blocks Baseball</p>
+      <h1>${esc(schoolTitle)} Schedule</h1>
+      
+      <div class="printControls">
+        <button class="printNow" onclick="window.print()">Print schedule</button>
+        <button class="closeBtn" onclick="window.close()">Close</button>
+      </div>
+    </div>
+    ${printableCard.outerHTML}
+  </div>
+  <script>
+    window.addEventListener("load",function(){
+      setTimeout(function(){
+        window.focus();
+        window.print();
+      },350);
+    });
+  <\/script>
+</body>
+</html>`;
+
+      printWindow.document.open();
+      printWindow.document.write(html);
+      printWindow.document.close();
+    }
+
+    function showShareButtonCopied(button,label,originalHTML){
+      if(!button)return;
+      button.disabled=true;
+      if(label)label.innerHTML='<span class="icon">✓</span> Link copied';
+      setTimeout(()=>{
+        if(label)label.innerHTML=originalHTML;
+        button.disabled=false;
+      },1600);
+    }
+
+    function closeDetail(){
+      appPage.classList.remove("showDetail");resultsMeta.style.display="flex";detailMount.innerHTML="";
+      history.pushState(null,"",location.pathname+location.search);
+      requestAnimationFrame(()=>window.scrollTo({top:savedScrollY,behavior:"instant"}));
+    }
+
+    window.addEventListener("popstate",()=>{
+      const hash=location.hash;
+      if(hash&&hash.length>1){const name=hashToName(hash);const match=groupedSchools.find(g=>g.name.toLowerCase()===name);if(match){openDetail(match,false);return;}}
+      if(appPage.classList.contains("showDetail")){appPage.classList.remove("showDetail");resultsMeta.style.display="flex";detailMount.innerHTML="";requestAnimationFrame(()=>window.scrollTo({top:savedScrollY,behavior:"instant"}));}
+    });
+
+    function buildPills(){
+      const allCities=[...new Set(groupedSchools.map(g=>g.city).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+      cityPillsEl.innerHTML="";
+      function makeCityPill(label){
+        const count=label==="All"?groupedSchools.length:groupedSchools.filter(g=>g.city===label).length;
+        const p=document.createElement("button");p.type="button";p.className="pill"+(activeCity===label?" active":"");
+        p.textContent=label==="All"?`All (${count})`:`${label} (${count})`;
+        p.addEventListener("click",()=>{activeCity=label;buildPills();render()});return p;
+      }
+      cityPillsEl.appendChild(makeCityPill("All"));
+      allCities.forEach(city=>cityPillsEl.appendChild(makeCityPill(city)));
+    }
+
+    function showSkeletons(count=6){
+      gridEl.innerHTML="";emptyEl.style.display="none";
+      for(let i=0;i<count;i++){const card=document.createElement("div");card.className="card skeleton";card.innerHTML='<div class="cardInner"><div class="sk-line sk-title"></div><div class="sk-line sk-sm"></div><div class="sk-line sk-md"></div><div class="sk-line sk-sm"></div><div class="footerRow"><div class="sk-line sk-tag"></div><div class="sk-line sk-btn"></div></div></div>';gridEl.appendChild(card)}
+    }
+
+    function render(){
+      if(isLoading){showSkeletons();return}
+      const qNorm=normSearch(qEl.value);
+      let list=groupedSchools.filter(g=>activeCity==="All"?true:g.city===activeCity).filter(g=>!qNorm||g._search.includes(qNorm));
+      list=sortList(list);
+      gridEl.innerHTML="";
+      if(!list.length){
+        emptyEl.style.display="block";
+        if(activeCity!=="All"&&!qNorm){
+          const suggestions=[...new Set(groupedSchools.filter(g=>g.city!==activeCity).map(g=>g.city).filter(Boolean))].slice(0,3);
+          emptySubEl.textContent=suggestions.length?`No schools in ${activeCity}. Try: ${suggestions.join(', ')}.`:`No schools found in ${activeCity}.`;
+        }else{emptySubEl.textContent="Try clearing your search or removing the city filter.";}
+        return;
+      }
+      emptyEl.style.display="none";
+      const today=new Date();today.setHours(0,0,0,0);
+      list.forEach(g=>{
+        const upcomingForCard=g.seasons.find(s=>{const d=parseDate(s.openingDay);return d&&d>today;});
+        const primary=upcomingForCard||g.seasons[0];
+        const anyRegOpen=g.seasons.some(s=>isRegOpen(s));
+        const regBadgeHTML=anyRegOpen?`<span class="regBadge open"></span>`:`<span class="regBadge closed">Registration Closed</span>`;
+        const line1=[primary.day?'<strong>'+highlightMatch(primary.day)+'</strong>':"",primary.time?'&middot; '+highlightMatch(primary.time):""].filter(Boolean).join(" ");
+        const line2=[primary.season?highlightMatch(primary.season):"",primary.weeks?highlightMatch(primary.weeks)+' weeks':"",primary.cost?'<span class="priceText">$'+highlightMatch(primary.cost)+'</span>':""].filter(Boolean).join(" &middot; ");
+        const line3=primary.openingDay?'<span class="accent">Opening Day:</span> '+highlightMatch(formatOpeningDay(primary.openingDay)):"";
+        const coachLineHTML=primary.coach?`<div class="coachLine">${highlightMatch(displayCoach(primary.coach))}</div>`:"";
+        const seasonPillsHTML=g.seasons.length>1?`<div class="seasonPills">${g.seasons.map(s=>`<span class="seasonTag">${esc(s.season||'')}</span>`).join("")}</div>`:"";
+        const footerLeft=g.city?`<div class="cityTag">${highlightMatch(g.city)}</div>`:'<div></div>';
+        const card=document.createElement("div");
+        card.className="card";
+        card.innerHTML=`<div class="cardInner"><div class="cardTopRow"><div class="name">${highlightMatch(g.name)}</div>${regBadgeHTML}</div><div class="metaBlock">${line1?'<div class="metaLine primary">'+line1+'</div>':''}${line2?'<div class="metaLine secondary">'+line2+'</div>':''}${line3?'<div class="metaLine tertiary">'+line3+'</div>':''}${coachLineHTML}${seasonPillsHTML}</div><div class="footerRow">${footerLeft}<button class="btn js-view-btn"><span class="btnText">View School</span><span class="spinner"></span></button></div></div>`;
+        gridEl.appendChild(card);
+        card.querySelector(".js-view-btn").addEventListener("click",function(){
+          gridEl.querySelectorAll(".btn.loading").forEach(b=>{b.classList.remove("loading");b.disabled=false;});
+          this.classList.add("loading");this.disabled=true;
+          setTimeout(()=>openDetail(g),120);
+        });
+      });
+      setStatus(true,groupedSchools.length+' schools \u2022 Showing '+list.length);
+      updateClearButton();
+    }
+
+    async function load(){
+      try{
+        isLoading=true;setStatus(null,"Loading schools\u2026");showSkeletons();
+        const res=await fetch(FETCH_URL(),{cache:"no-store"});
+        if(!res.ok)throw new Error("HTTP "+res.status);
+        const text=await res.text(),rows=parseCSV(text);
+        if(!rows.length)throw new Error("No CSV rows");
+        const headers=rows[0].map(normH),objs=rows.slice(1).map(r=>{const o={};headers.forEach((h,i)=>o[h]=r[i]??"");return o});
+        rawSchools=objs.map(o=>({
+          name:pick(o,["name","schoolname"]),season:pick(o,["season"]),weeks:pick(o,["weeks","week"]),cost:pick(o,["cost","price"]),day:pick(o,["day","dayoftheweek"]),time:pick(o,["time","starttime"]),openingDay:pick(o,["openingday","openingdate","opening"]),active:pick(o,["active"]),regOpen:pick(o,["regopen","registrationopen"]),regClosedReason:pick(o,["regclosedreason","registrationclosedreason","closedreason"]),coach:pick(o,["coach"]),skipDates:pick(o,["skipdates","skipdate","skip"]),ftDate:pick(o,["ftdate","freetrialdate"]),ftTime:pick(o,["fttime","freetrialtime"]),ftCoach:pick(o,["ftcoach","freetrialcoach"]),address:pick(o,["address","fulladdress"]),
+        })).filter(s=>s.name);
+        const visibleRows=rawSchools.filter(s=>isRowActive(s));
+        const groupMap=new Map();
+        visibleRows.forEach(s=>{const key=s.name.trim().toLowerCase();if(!groupMap.has(key))groupMap.set(key,[]);groupMap.get(key).push(s);});
+        groupedSchools=[...groupMap.values()].map(seasons=>{
+          const city=cityFromAddress(seasons[0].address);
+          const g={name:seasons[0].name,city,seasons,address:seasons[0].address};
+          g._search=normSearch([g.name,g.city,...seasons.map(s=>[s.season,s.weeks,s.cost,s.day,s.time,s.openingDay,s.coach].join(" "))].join(" "));
+          return g;
+        });
+        isLoading=false;buildPills();render();
+        const hash=location.hash;
+        if(hash&&hash.length>1){const name=hashToName(hash);const match=groupedSchools.find(g=>g.name.toLowerCase()===name);if(match)openDetail(match,false);}
+        if(window.innerWidth>900)setTimeout(()=>qEl.focus(),150);
+      }catch(e){
+        console.error(e);isLoading=false;gridEl.innerHTML="";setStatus(false,"Failed to load schools.");
+      }
+    }
+
+    qEl.addEventListener("input",()=>{updateClearButton();clearTimeout(searchTimer);searchTimer=setTimeout(render,150)});
+    clearBtn.addEventListener("click",()=>{qEl.value="";updateClearButton();render();qEl.focus()});
+    clearSearchBtn.addEventListener("click",()=>{qEl.value="";updateClearButton();render();qEl.focus()});
+    clearFiltersBtn.addEventListener("click",()=>{activeCity="All";buildPills();render()});
+    sortSelect.addEventListener("change",render);
+    load();
+  </script>
 </body>
 </html>
