@@ -1,0 +1,10 @@
+<svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Building Blocks Baseball logo</title>
+  <desc id="desc">Red baseball home plate logo with Building Blocks Baseball text.</desc>
+  <rect width="420" height="120" rx="24" fill="#ffffff"/>
+  <path d="M52 22h76v48c0 21-15 39-38 48-23-9-38-27-38-48V22z" fill="#b91c1c"/>
+  <path d="M66 36h48v31c0 13-9 25-24 31-15-6-24-18-24-31V36z" fill="#ffffff"/>
+  <path d="M80 55c9-8 21-8 30 0M77 74c11 9 25 9 36 0" stroke="#b91c1c" stroke-width="5" stroke-linecap="round"/>
+  <text x="148" y="50" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="800" fill="#111827">Building Blocks</text>
+  <text x="148" y="82" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="900" fill="#b91c1c">Baseball</text>
+</svg>
