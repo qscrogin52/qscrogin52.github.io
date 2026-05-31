@@ -5,54 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Building Blocks Baseball Schools Directory</title>
   <style>
-    .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.72);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255,255,255,.16);
-}
-
-.site-nav {
-  max-width: 1240px;
-  margin: 0 auto;
-  min-height: 48px;
-  padding: 0 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: none;
-}
-
-.site-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.site-nav a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 900;
-  opacity: .95;
-  transition: color .15s ease, opacity .15s ease;
-}
-
-.site-nav a:hover {
-  color: #ff1b1b;
-  opacity: 1;
-}
-
-@media (max-width: 700px) {
-  .site-nav {
-    justify-content: flex-start;
-    gap: 18px;
-  }
-}
     :root {
       --brand: #d61f2b;
       --brand-dark: #ab1620;
@@ -1366,18 +1318,71 @@
 
     @media print { .bbb-footer { display: none !important; } }
 
+
+    /* Top Navigation Bar */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.74);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.16);
+    }
+
+    .site-nav {
+      max-width: 1240px;
+      margin: 0 auto;
+      min-height: 48px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+
+    .site-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .site-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 900;
+      opacity: .95;
+      transition: color .15s ease, opacity .15s ease;
+    }
+
+    .site-nav a:hover,
+    .site-nav a[aria-current="page"] {
+      color: #ff1b1b;
+      opacity: 1;
+    }
+
+    @media (max-width: 700px) {
+      .site-nav {
+        justify-content: flex-start;
+        gap: 18px;
+      }
+    }
+
   </style>
 </head>
 <body>
+
   <header class="site-header">
-  <nav class="site-nav" aria-label="Main navigation">
-    <a href="../">Home</a>
-    <a href="../our-program/">Our Program</a>
-    <a href="../schools/">Schools</a>
-    <a href="../parent-faq/">Parent FAQ</a>
-    <a href="../contact/">Get In Touch</a>
-  </nav>
-</header>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="../">Home</a>
+      <a href="../our-program/">Our Program</a>
+      <a href="../schools/" aria-current="page">Schools</a>
+      <a href="../parent-faq/">Parent FAQ</a>
+      <a href="../contact/">Get In Touch</a>
+    </nav>
+  </header>
   <div class="bg-ball ball-1" aria-hidden="true"></div>
   <div class="bg-ball ball-2" aria-hidden="true"></div>
   <div class="bg-ball ball-3" aria-hidden="true"></div>
@@ -1462,14 +1467,14 @@
         <a href="mailto:Coachken@buildingblocksbaseballstl.com">Coachken@buildingblocksbaseballstl.com</a>
         <a href="tel:3146041031">314-604-1031</a>
       </div>
-      <a class="bbb-privacy" href="https://www.buildingblocksbaseballstl.com/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+      <a class="bbb-privacy" href="../privacy-policy/">Privacy Policy</a>
     </div>
     <div class="bbb-footer-section bbb-links">
       <h3>Explore</h3>
-      <a href="https://www.buildingblocksbaseballstl.com/home" target="_blank" rel="noopener">Home</a>
-      <a href="https://www.buildingblocksbaseballstl.com/our-program" target="_blank" rel="noopener">Our Program</a>
-      <a href="https://www.buildingblocksbaseballstl.com/schools" target="_blank" rel="noopener">Schools</a>
-      <a href="https://www.buildingblocksbaseballstl.com/parent-faq" target="_blank" rel="noopener">Parent FAQ</a>
+      <a href="../">Home</a>
+      <a href="../our-program/">Our Program</a>
+      <a href="../schools/">Schools</a>
+      <a href="../parent-faq/">Parent FAQ</a>
     </div>
     <div class="bbb-footer-section bbb-socials">
       <a href="https://www.instagram.com/buildingblocksbaseball/" target="_blank" rel="noopener" aria-label="Instagram"><img src="https://i.postimg.cc/NfrCPyrB/unnamed-(13).png" alt="Instagram"></a>
@@ -1502,14 +1507,14 @@
         <a href="mailto:Coachken@buildingblocksbaseballstl.com">Coachken@buildingblocksbaseballstl.com</a>
         <a href="tel:3146041031">314-604-1031</a>
       </div>
-      <a class="bbb-privacy" href="https://www.buildingblocksbaseballstl.com/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+      <a class="bbb-privacy" href="../privacy-policy/">Privacy Policy</a>
     </div>
     <div class="bbb-footer-section bbb-links">
       <h3>Explore</h3>
-      <a href="https://www.buildingblocksbaseballstl.com/home" target="_blank" rel="noopener">Home</a>
-      <a href="https://www.buildingblocksbaseballstl.com/our-program" target="_blank" rel="noopener">Our Program</a>
-      <a href="https://www.buildingblocksbaseballstl.com/schools" target="_blank" rel="noopener">Schools</a>
-      <a href="https://www.buildingblocksbaseballstl.com/parent-faq" target="_blank" rel="noopener">Parent FAQ</a>
+      <a href="../">Home</a>
+      <a href="../our-program/">Our Program</a>
+      <a href="../schools/">Schools</a>
+      <a href="../parent-faq/">Parent FAQ</a>
     </div>
     <div class="bbb-footer-section bbb-socials">
       <a href="https://www.instagram.com/buildingblocksbaseball/" target="_blank" rel="noopener" aria-label="Instagram"><img src="https://i.postimg.cc/NfrCPyrB/unnamed-(13).png" alt="Instagram"></a>
