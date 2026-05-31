@@ -3,62 +3,1078 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Building Blocks Baseball | Youth Baseball Programs in St. Louis</title>
-  <meta name="description" content="Building Blocks Baseball provides fun, age-appropriate baseball practices for preschool and early elementary players in the St. Louis area." />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <title>Building Blocks Baseball | Youth Baseball Fundamentals</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --red: #c91d24;
+      --red-dark: #a9151b;
+      --red-soft: #fff1f2;
+      --pink: #fde8ea;
+      --navy: #101827;
+      --navy-2: #182235;
+      --text: #111827;
+      --muted: #667085;
+      --line: #e7e9ee;
+      --white: #ffffff;
+      --off: #f8fafc;
+      --shadow: 0 22px 50px rgba(16, 24, 39, .12);
+      --red-shadow: 0 18px 35px rgba(201, 29, 36, .24);
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+
+    .top-strip {
+      background: linear-gradient(90deg, var(--red-dark), var(--red), var(--red-dark));
+      color: #fff;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      padding: 9px 14px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      min-width: 230px;
+    }
+
+    .brand img {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-title {
+      display: grid;
+      gap: 0;
+      line-height: .95;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 900;
+      letter-spacing: -.045em;
+      font-size: 18px;
+    }
+
+    .brand-title span:last-child {
+      color: var(--red);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 850;
+      color: #354052;
+      padding: 11px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+      transition: background .18s ease, color .18s ease, transform .18s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--pink);
+      color: var(--red-dark);
+      transform: translateY(-1px);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 13% 12%, rgba(201,29,36,.16), transparent 25%),
+        radial-gradient(circle at 88% 5%, rgba(201,29,36,.12), transparent 26%),
+        linear-gradient(120deg, #fff 0%, #fff6f7 48%, #fde8ea 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(rgba(201, 29, 36, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,29,36,.035) 1px, transparent 1px);
+      background-size: 22px 22px, 110px 110px;
+      opacity: .55;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 72px 0 70px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--red);
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 13px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      color: var(--navy);
+      font-size: clamp(54px, 7.2vw, 94px);
+      line-height: .88;
+      letter-spacing: -.075em;
+      font-weight: 900;
+    }
+
+    .hero-copy {
+      margin: 22px 0 0;
+      max-width: 640px;
+      color: #344054;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 13px 20px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 950;
+      font-size: 14px;
+      letter-spacing: -.02em;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .btn-red {
+      color: #fff;
+      background: linear-gradient(180deg, var(--red), var(--red-dark));
+      box-shadow: var(--red-shadow);
+    }
+
+    .btn-light {
+      color: var(--navy);
+      background: #fff;
+      border: 1px solid #d9dee8;
+      box-shadow: 0 12px 25px rgba(16,24,39,.08);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-card {
+      position: relative;
+      background: rgba(255,255,255,.84);
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: 34px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      right: -95px;
+      bottom: -110px;
+      background:
+        radial-gradient(circle, transparent 0 61%, rgba(201,29,36,.08) 62% 100%);
+      border: 2px solid rgba(201,29,36,.10);
+      pointer-events: none;
+    }
+
+    .hero-card h2 {
+      position: relative;
+      margin: 0 0 10px;
+      font-family: "Montserrat", sans-serif;
+      font-size: clamp(30px, 3.4vw, 44px);
+      line-height: .98;
+      letter-spacing: -.06em;
+      color: var(--navy);
+      z-index: 1;
+    }
+
+    .hero-card p {
+      position: relative;
+      margin: 0;
+      color: #475467;
+      font-weight: 650;
+      line-height: 1.55;
+      z-index: 1;
+    }
+
+    .stat-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .stat {
+      background: var(--off);
+      border: 1px solid #eef0f3;
+      border-radius: 18px;
+      padding: 16px 14px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--red);
+      font-family: "Montserrat", sans-serif;
+      font-size: 27px;
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: -.06em;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 6px;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .logo-badge {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 12px 14px;
+      border-radius: 20px;
+      background: var(--navy);
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(16, 24, 39, .20);
+    }
+
+    .logo-badge img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 14px;
+      padding: 4px;
+    }
+
+    .logo-badge span {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 900;
+      line-height: .95;
+      letter-spacing: -.04em;
+    }
+
+    .section {
+      padding: 76px 0;
+    }
+
+    .section.alt {
+      background: #f4f6f9;
+    }
+
+    .section-inner {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .section-head {
+      max-width: 790px;
+      margin-bottom: 30px;
+    }
+
+    .section-head.center {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      color: var(--navy);
+      font-family: "Montserrat", sans-serif;
+      font-weight: 900;
+      font-size: clamp(36px, 5vw, 60px);
+      line-height: .94;
+      letter-spacing: -.065em;
+    }
+
+    .section-head p {
+      margin: 16px 0 0;
+      color: #475467;
+      font-size: 18px;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .info-card {
+      position: relative;
+      min-height: 245px;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 14px 35px rgba(16,24,39,.07);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 55px rgba(16,24,39,.12);
+      border-color: rgba(201,29,36,.25);
+    }
+
+    .info-card.red {
+      color: #fff;
+      border-color: transparent;
+      background:
+        radial-gradient(circle at 88% 16%, rgba(255,255,255,.25), transparent 26%),
+        linear-gradient(160deg, var(--red), var(--red-dark));
+      box-shadow: var(--red-shadow);
+    }
+
+    .card-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--red-soft);
+      color: var(--red);
+      font-size: 24px;
+      margin-bottom: 28px;
+      font-weight: 900;
+    }
+
+    .info-card.red .card-icon {
+      background: rgba(255,255,255,.16);
+      color: #fff;
+    }
+
+    .info-card h3 {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      font-size: 25px;
+      line-height: 1;
+      letter-spacing: -.055em;
+      color: var(--navy);
+    }
+
+    .info-card.red h3,
+    .info-card.red p,
+    .info-card.red a {
+      color: #fff;
+    }
+
+    .info-card p {
+      margin: 12px 0 0;
+      color: #536073;
+      font-weight: 620;
+      line-height: 1.55;
+    }
+
+    .mini-link {
+      display: inline-flex;
+      margin-top: 20px;
+      text-decoration: none;
+      font-weight: 950;
+      color: var(--red);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .program-list {
+      display: grid;
+      gap: 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .program-list li {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: 20px;
+      background: var(--off);
+      border: 1px solid #edf0f4;
+    }
+
+    .num {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--red);
+      color: #fff;
+      font-weight: 950;
+      box-shadow: 0 10px 18px rgba(201,29,36,.18);
+    }
+
+    .program-list strong {
+      display: block;
+      font-size: 16px;
+      color: var(--navy);
+      font-weight: 950;
+    }
+
+    .program-list span {
+      display: block;
+      margin-top: 4px;
+      color: #536073;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    .directory-cta {
+      background:
+        linear-gradient(100deg, rgba(16,24,39,.96), rgba(16,24,39,.90)),
+        radial-gradient(circle at 85% 50%, rgba(201,29,36,.40), transparent 36%);
+      color: #fff;
+      border-radius: 34px;
+      padding: 42px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .directory-cta::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -110px;
+      width: 270px;
+      height: 270px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.13);
+      background: radial-gradient(circle, transparent 0 61%, rgba(255,255,255,.05) 62% 100%);
+      pointer-events: none;
+    }
+
+    .directory-cta h2 {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: .95;
+      letter-spacing: -.06em;
+    }
+
+    .directory-cta p {
+      max-width: 660px;
+      margin: 14px 0 0;
+      color: rgba(255,255,255,.82);
+      font-weight: 600;
+      line-height: 1.55;
+      font-size: 17px;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .quote-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: 0 14px 35px rgba(16,24,39,.07);
+    }
+
+    .quote-card strong {
+      display: block;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 12px;
+      font-weight: 950;
+      margin-bottom: 14px;
+    }
+
+    .quote-card p {
+      margin: 0;
+      color: var(--navy);
+      font-size: 22px;
+      line-height: 1.35;
+      font-weight: 800;
+      letter-spacing: -.035em;
+    }
+
+    .quote-card small {
+      display: block;
+      margin-top: 16px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .mini-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .small-cta {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 26px;
+      box-shadow: 0 14px 35px rgba(16,24,39,.07);
+    }
+
+    .small-cta h3 {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      font-size: 27px;
+      line-height: .95;
+      letter-spacing: -.055em;
+      color: var(--navy);
+    }
+
+    .small-cta p {
+      margin: 12px 0 0;
+      color: #536073;
+      font-weight: 620;
+      line-height: 1.5;
+    }
+
+    .footer {
+      background: var(--navy);
+      color: #fff;
+      padding: 54px 0 34px;
+    }
+
+    .footer-inner {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr .7fr .7fr;
+      gap: 38px;
+    }
+
+    .footer-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .footer-brand img {
+      width: 54px;
+      height: 54px;
+      background: #fff;
+      border-radius: 16px;
+      object-fit: contain;
+      padding: 4px;
+    }
+
+    .footer-brand span {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 900;
+      line-height: .96;
+      letter-spacing: -.045em;
+    }
+
+    .footer p {
+      margin: 0;
+      max-width: 430px;
+      color: rgba(255,255,255,.75);
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .footer h4 {
+      margin: 0 0 14px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .footer a {
+      display: block;
+      color: rgba(255,255,255,.74);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 750;
+      margin: 0 0 10px;
+    }
+
+    .footer a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .copyright {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 34px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.58);
+      font-size: 13px;
+      font-weight: 650;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .nav {
+        min-height: 76px;
+      }
+
+      .menu-btn {
+        display: inline-flex;
+      }
+
+      .nav-links {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        top: calc(100% + 8px);
+        display: none;
+        padding: 12px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        justify-content: flex-start;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        background: #f8fafc;
+        border: 1px solid #edf0f4;
+      }
+
+      .hero-inner,
+      .split,
+      .testimonial-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-inner {
+        padding: 54px 0 56px;
+        gap: 30px;
+      }
+
+      .cards-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .directory-cta {
+        grid-template-columns: 1fr;
+        padding: 32px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .top-strip {
+        font-size: 12px;
+      }
+
+      .nav {
+        width: min(100% - 28px, var(--max));
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .brand img {
+        width: 50px;
+        height: 50px;
+      }
+
+      .brand-title {
+        font-size: 16px;
+      }
+
+      .hero-inner,
+      .section-inner,
+      .footer-inner,
+      .copyright {
+        width: min(100% - 28px, var(--max));
+      }
+
+      .hero h1 {
+        font-size: clamp(46px, 14vw, 66px);
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+
+      .panel,
+      .hero-card,
+      .directory-cta,
+      .quote-card,
+      .small-cta {
+        border-radius: 24px;
+      }
+
+      .copyright {
+        display: block;
+      }
+
+      .copyright span {
+        display: block;
+        margin-top: 8px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <div data-site-header></div>
+  <div class="top-strip">Putting the fun in fundamentals for preschool and early elementary players.</div>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Main Navigation">
+      <a class="brand" href="https://www.buildingblocksbaseballstl.com/home" target="_top">
+        <img src="https://i.postimg.cc/gcMmd9s3/unnamed-(10).png" alt="Building Blocks Baseball logo">
+        <span class="brand-title">
+          <span>Building Blocks</span>
+          <span>Baseball</span>
+        </span>
+      </a>
+
+      <button class="menu-btn" type="button" aria-label="Open navigation" onclick="document.querySelector('.nav-links').classList.toggle('open')">Menu</button>
+
+      <div class="nav-links">
+        <a class="active" href="https://www.buildingblocksbaseballstl.com/home" target="_top">Home</a>
+        <a href="https://www.buildingblocksbaseballstl.com/our-program" target="_top">Our Program</a>
+        <a href="https://www.buildingblocksbaseballstl.com/schools" target="_top">Schools</a>
+        <a href="https://www.buildingblocksbaseballstl.com/team-apparel" target="_top">Team Apparel</a>
+        <a href="https://www.buildingblocksbaseballstl.com/coaching-staff" target="_top">Coaching Staff</a>
+        <a href="https://www.buildingblocksbaseballstl.com/photos" target="_top">Photos</a>
+        <a href="https://www.buildingblocksbaseballstl.com/testimonies" target="_top">Testimonies</a>
+        <a href="https://www.buildingblocksbaseballstl.com/birthday-parties" target="_top">Birthday Parties</a>
+        <a href="https://www.buildingblocksbaseballstl.com/parent-faq" target="_top">Parent FAQ</a>
+        <a href="https://www.buildingblocksbaseballstl.com/get-in-touch" target="_top">Get In Touch</a>
+      </div>
+    </nav>
+  </header>
+
   <main>
-    <section class="hero section">
-      <div class="container hero-grid">
+    <section class="hero">
+      <div class="hero-inner">
         <div>
-          <p class="kicker">St. Louis Youth Baseball</p>
-          <h1>Baseball fundamentals built for young players.</h1>
-          <p class="lead">Building Blocks Baseball brings fun, structured practices to schools and childcare centers so kids can learn throwing, catching, hitting, running, teamwork, and confidence.</p>
-          <div class="button-row">
-            <a class="btn btn-primary" href="schools/">Find Your School</a>
-            <a class="btn btn-secondary" href="our-program/">View Program</a>
+          <p class="eyebrow">St. Louis youth baseball</p>
+          <h1>Baseball basics built for young players.</h1>
+          <p class="hero-copy">Building Blocks Baseball brings fun, structured practices to schools and childcare centers so kids can learn throwing, catching, hitting, running, teamwork, and confidence.</p>
+          <div class="actions">
+            <a class="btn btn-red" href="https://www.buildingblocksbaseballstl.com/schools" target="_top">Find Your School</a>
+            <a class="btn btn-light" href="https://www.buildingblocksbaseballstl.com/our-program" target="_top">View Our Program</a>
           </div>
         </div>
-        <div class="hero-card">
+
+        <aside class="hero-card">
+          <div class="logo-badge">
+            <img src="https://i.postimg.cc/gcMmd9s3/unnamed-(10).png" alt="Building Blocks Baseball logo">
+            <span>Building Blocks<br>Baseball</span>
+          </div>
           <h2>What we do</h2>
-          <p>We provide the equipment and run age-appropriate practices focused on movement, confidence, and baseball basics. No experience is needed.</p>
+          <p>We provide the equipment and run age-appropriate practices focused on movement, confidence, and baseball fundamentals. No experience is needed.</p>
           <div class="stat-grid">
-            <div class="stat"><strong>3–6</strong><span>Typical ages</span></div>
-            <div class="stat"><strong>45</strong><span>Minute practices</span></div>
-            <div class="stat"><strong>STL</strong><span>Area schools</span></div>
+            <div class="stat">
+              <strong>3–6</strong>
+              <span>Typical player ages</span>
+            </div>
+            <div class="stat">
+              <strong>45</strong>
+              <span>Minute practices</span>
+            </div>
+            <div class="stat">
+              <strong>STL</strong>
+              <span>Area schools</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-head">
+          <p class="eyebrow">Program basics</p>
+          <h2>Simple for parents. Fun for kids. Organized for schools.</h2>
+          <p>Families can find their school, check the schedule, and register from the schools page. Practices are designed to keep young players moving and learning without parents needing to bring extra equipment.</p>
+        </div>
+
+        <div class="cards-3">
+          <article class="info-card">
+            <div class="card-icon">⚾</div>
+            <h3>Equipment provided</h3>
+            <p>Players do not need to bring bats, balls, gloves, or helmets for normal practices. We bring the practice equipment.</p>
+            <a class="mini-link" href="https://www.buildingblocksbaseballstl.com/parent-faq" target="_top">Read parent FAQ →</a>
+          </article>
+
+          <article class="info-card">
+            <div class="card-icon">🏃</div>
+            <h3>Age-appropriate coaching</h3>
+            <p>Sessions are built for young players with short activities, clear instruction, and plenty of movement.</p>
+            <a class="mini-link" href="https://www.buildingblocksbaseballstl.com/our-program" target="_top">See the program →</a>
+          </article>
+
+          <article class="info-card red">
+            <div class="card-icon">📍</div>
+            <h3>School-based sessions</h3>
+            <p>Families can find their school, view the current schedule, check registration status, and open the detail page.</p>
+            <a class="mini-link" href="https://www.buildingblocksbaseballstl.com/schools" target="_top">Open school directory →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="section-inner split">
+        <div class="section-head">
+          <p class="eyebrow">How it works</p>
+          <h2>Built around quick wins and real fundamentals.</h2>
+          <p>Practices are not complicated. The goal is to help kids build comfort with the game, learn the basics, and have a reason to look forward to baseball each week.</p>
+          <div class="actions">
+            <a class="btn btn-red" href="https://www.buildingblocksbaseballstl.com/schools" target="_top">Check Current Schools</a>
           </div>
         </div>
-      </div>
-    </section>
-    <section class="section-sm">
-      <div class="container">
-        <p class="kicker">Program Basics</p>
-        <h2>Simple for parents. Fun for kids. Organized for schools.</h2>
-        <div class="card-grid">
-          <article class="card"><h3>Equipment provided</h3><p>Players do not need to bring bats, balls, gloves, or helmets for normal practices. We bring the practice equipment.</p></article>
-          <article class="card"><h3>Age-appropriate coaching</h3><p>Sessions are designed for younger players with short activities, clear instruction, and plenty of movement.</p></article>
-          <article class="card red"><h3>School-based sessions</h3><p>Families can find their school, view the schedule, and register from the schools page.</p></article>
+
+        <div class="panel">
+          <ol class="program-list">
+            <li>
+              <span class="num">1</span>
+              <div>
+                <strong>Warm up and movement</strong>
+                <span>Players get active first so practice feels fun, not like a lecture.</span>
+              </div>
+            </li>
+            <li>
+              <span class="num">2</span>
+              <div>
+                <strong>Throwing, catching, hitting, and running</strong>
+                <span>Each practice focuses on simple baseball skills with clear instructions.</span>
+              </div>
+            </li>
+            <li>
+              <span class="num">3</span>
+              <div>
+                <strong>Teamwork and confidence</strong>
+                <span>Kids practice listening, taking turns, cheering each other on, and trying again.</span>
+              </div>
+            </li>
+            <li>
+              <span class="num">4</span>
+              <div>
+                <strong>Parent-friendly schedule pages</strong>
+                <span>School detail pages show dates, times, registration links, and updates in one place.</span>
+              </div>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
-    <section class="section-sm" style="background:var(--gray-100)">
-      <div class="container hero-grid">
-        <div>
-          <p class="kicker">For Families</p>
-          <h2>Check your school’s current schedule.</h2>
-          <p class="lead">The schools page lists participating locations, registration status, practice times, and individual school detail pages.</p>
+
+    <section class="section">
+      <div class="section-inner">
+        <div class="directory-cta">
+          <div>
+            <p class="eyebrow" style="color:#ffb8bd;margin-bottom:12px;">For families</p>
+            <h2>Check your school’s current schedule.</h2>
+            <p>The schools page lists participating locations, registration status, practice times, and individual school detail pages.</p>
+          </div>
+          <a class="btn btn-red" href="https://www.buildingblocksbaseballstl.com/schools" target="_top">Open Schools Directory</a>
         </div>
-        <div class="card">
-          <h3>Ready to get started?</h3>
-          <p>Search for your school and open the detail page for registration and schedule information.</p>
-          <a class="btn btn-primary" href="schools/">Open Schools Directory</a>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="section-inner">
+        <div class="section-head center">
+          <p class="eyebrow">More from Building Blocks</p>
+          <h2>Practices, parties, photos, and parent feedback.</h2>
+          <p>Use the quick links below to jump into the parts of the site parents usually look for first.</p>
+        </div>
+
+        <div class="testimonial-grid">
+          <article class="quote-card">
+            <strong>What parents are saying</strong>
+            <p>“Piper is thrilled and will NOT stop talking about how much fun she had with Coach Ken today!”</p>
+            <small>— Parent testimonial</small>
+            <a class="mini-link" href="https://www.buildingblocksbaseballstl.com/testimonies" target="_top">Read more testimonies →</a>
+          </article>
+
+          <div class="mini-stack">
+            <article class="small-cta">
+              <h3>Birthday parties</h3>
+              <p>Add a baseball-themed activity to a party with fun games and kid-friendly coaching.</p>
+              <a class="mini-link" href="https://www.buildingblocksbaseballstl.com/birthday-parties" target="_top">Learn about parties →</a>
+            </article>
+
+            <article class="small-cta">
+              <h3>Photos</h3>
+              <p>See program photos and moments from Building Blocks Baseball sessions.</p>
+              <a class="mini-link" href="https://www.buildingblocksbaseballstl.com/photos" target="_top">View photos →</a>
+            </article>
+          </div>
         </div>
       </div>
     </section>
   </main>
-  <div data-site-footer></div>
-  <script src="assets/js/main.js"></script>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">
+          <img src="https://i.postimg.cc/gcMmd9s3/unnamed-(10).png" alt="Building Blocks Baseball logo">
+          <span>Building Blocks<br>Baseball</span>
+        </div>
+        <p>Baseball fundamentals, teamwork, and confidence-building practices for young players across the St. Louis area.</p>
+      </div>
+
+      <div>
+        <h4>Pages</h4>
+        <a href="https://www.buildingblocksbaseballstl.com/home" target="_top">Home</a>
+        <a href="https://www.buildingblocksbaseballstl.com/our-program" target="_top">Our Program</a>
+        <a href="https://www.buildingblocksbaseballstl.com/schools" target="_top">Schools</a>
+        <a href="https://www.buildingblocksbaseballstl.com/team-apparel" target="_top">Team Apparel</a>
+        <a href="https://www.buildingblocksbaseballstl.com/coaching-staff" target="_top">Coaching Staff</a>
+        <a href="https://www.buildingblocksbaseballstl.com/parent-faq" target="_top">Parent FAQ</a>
+      </div>
+
+      <div>
+        <h4>Connect</h4>
+        <a href="https://www.instagram.com/buildingblocksbaseball/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/BuildingBlocksBaseball/" target="_blank" rel="noopener">Facebook</a>
+        <a href="mailto:Coachken@buildingblocksbaseballstl.com">Coachken@buildingblocksbaseballstl.com</a>
+        <a href="tel:3146041031">314-604-1031</a>
+        <a href="https://www.buildingblocksbaseballstl.com/privacy-policy" target="_top">Privacy Policy</a>
+      </div>
+    </div>
+
+    <div class="copyright">
+      <div>© 2026 Building Blocks Baseball. All rights reserved.</div>
+      <span>St. Louis, Missouri</span>
+    </div>
+  </footer>
 </body>
 </html>
